@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Evilzinha - Store Oficial 🌙</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    /* 🎥 vídeo de fundo */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    header {
+      background: rgba(0,0,0,0.6);
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #ff00ff;
+    }
+    .content {
+      position: relative;
+      top: 20%;
+      transform: translateY(-20%);
+    }
+    h1 {
+      font-size: 40px;
+      text-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
+      animation: glow 3s infinite alternate;
+    }
+    h2 {
+      font-size: 20px;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px #ff00ff;
+    }
+    a.button {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 20px;
+      color: #000;
+      background: linear-gradient(90deg, #ff00ff, #00ffff);
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 20px #ff00ff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    a.button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px #00ffff;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff; }
+      to { text-shadow: 0 0 30px #00ffff, 0 0 40px #ff00ff; }
+    }
+    /* Texto centralizado */
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 0 10px #9d00ff, 0 0 20px #9d00ff;
+    }    /* 🎶 Player de áudio no canto inferior direito */
+#audio-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+}
+#audio-container audio {
+  width: 200px;
+  opacity: 0.8;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #9d00ff;
+}
+
+      /* ⚡ Raios suaves */
+    .lightning {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.2);
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @keyframes flash {
+      0%, 100% { opacity: 0; }
+      5% { opacity: 0.8; }
+      10% { opacity: 0; }
+    }
+    .flash {
+      animation: flash 6s infinite;
+    }
+        /* Rodapé */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      background: rgba(0,0,0,0.6);
+      text-shadow: 0 0 5px #9d00ff;
+    }
+  </style>
+</head>
+<body>
+  <!-- ⚡ Efeito de relâmpagos -->
+<div class="lightning flash"></div>
+  <!-- 🎥 vídeo de fundo -->
+  <video autoplay muted loop id="bg-video">
+    <source src="mylivewallpapers-com-Night-of-Halloween-4K.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo em HTML5.
+  </video>
+
+
+    <div class="content">
+    <h1>𝕭𝖊𝖒-𝖛𝖎𝖓𝖉𝖔 à 𝕰𝖛𝖎𝖑 𝕾𝖙𝖔𝖗𝖊 𝕺𝖓𝖑𝖎𝖓𝖊</h1>
+    <h2>𝕰𝖓𝖙𝖗𝖊 𝖆𝖘 𝕾𝖔𝖒𝖇𝖗𝖆𝖘 𝕹𝖆𝖘𝖈𝖊 𝖔 𝕰𝖘𝖙𝖎𝖑𝖔 𝖊 𝖆 𝕰𝖑𝖊𝖌𝖆𝖓𝖈𝖆 𝕾𝖔𝖒𝖇𝖗𝖎𝖆.</h2>
+    <a href="http://127.0.0.1:5500/evilhotgirlstore.html" class="button">✨ Entrar na Loja ✨</a>
+  </div>
+
+<!-- 🎵 Player estilizado -->
+<div id="audio-container">
+  <audio id="bg-audio" autoplay loop>
+    <source src="musicevilgirl.mp3" type="audio/mp3">
+  </audio>
+  <button id="play-pause">🔊 Tocar</button>
+</div>
+
+<style>
+  #audio-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #ff00ff;
+    border-radius: 12px;
+    padding: 10px 15px;
+    box-shadow: 0 0 15px #ff00ff;
+    z-index: 1000;
+  }
+
+  #play-pause {
+    background: linear-gradient(90deg, #ff00ff, #8000ff);
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'UnifrakturCook', cursive;
+    text-shadow: 0 0 5px #fff;
+  }
+
+  #play-pause:hover {
+    box-shadow: 0 0 20px #00ffff, 0 0 30px #ff00ff;
+    transform: scale(1.1);
+    transition: 0.2s;
+  }
+</style>
+
+<script>
+  const audio = document.getElementById('bg-audio');
+  const button = document.getElementById('play-pause');
+
+  // começa tocando
+  audio.play();
+
+  button.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      button.textContent = "🔊 Tocar";
+    } else {
+      audio.pause();
+      button.textContent = "🔇 Pausado";
+    }
+  });
+</script>
+    <!-- Rodapé -->
+  <footer> © 2025 EvilhotGirl Store Oficial 🌙 </footer>
+
+</body>
+</html>
