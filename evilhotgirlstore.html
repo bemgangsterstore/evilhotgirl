@@ -42,6 +42,208 @@
       --glass: rgba(255,255,255,0.03);
       --text: #e8f6ff;
     }
+#card-ask {
+  max-width: 600px;  /* reduz a largura */
+  min-height: auto;  /* remove altura fixa */
+  padding: 24px;     /* mais compacto */
+}
+
+#card-ask h3 {
+  font-size: 22px;   /* aumenta título */
+}
+
+#card-ask p {
+  font-size: 16px;   /* aumenta texto */
+}
+.moon-card {
+  max-width: 600px;   /* igual aos outros */
+  width: 100%;
+  padding: 22px;
+  border-radius: 14px;
+  margin: 0 auto;     /* centraliza */
+}
+.cards-grid {
+  gap: 28px;   /* aumenta espaçamento entre os cards */
+}
+
+.moon-wrap {
+  margin-bottom: 40px; /* separa o card da Lua do próximo */
+}
+.bottom-cards .card {
+  max-width: 600px;
+  min-height: auto;
+  padding: 22px;
+}
+
+.bottom-cards .card h3 {
+  font-size: 20px;
+}
+
+.bottom-cards .card p {
+  font-size: 15px;
+}
+.moon-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+}
+
+.moon-card {
+  max-width: 280px;              /* igual aos outros cards */
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(10, 10, 10, 0.9);
+  text-align: center;
+  box-shadow: 0 0 12px rgba(200, 0, 255, 0.6); /* neon igual */
+  transition: transform 0.2s ease-in-out;
+}
+
+.moon-card:hover {
+  transform: translateY(-5px);
+}
+
+.moon-card h4 {
+  font-size: 18px;
+  color: #ff7bff;                /* rosa neon como os títulos */
+  margin-bottom: 10px;
+}
+
+.moon-card .meta {
+  font-size: 14px;
+  color: #b3e5ff;                /* azul claro */
+  margin-top: 6px;
+}
+
+.moon-card p {
+  font-size: 14px;
+  color: #ffffff;                /* texto branco visível */
+  margin-top: 8px;
+}
+
+.moon-card input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 6px;
+  border-radius: 8px;
+  border: none;
+}
+.card {
+  background: rgba(10, 10, 10, 0.9);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(200, 0, 255, 0.6);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.neon-pulse {
+  color: #ff7bff;
+  text-shadow: 0 0 5px #ff7bff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    text-shadow: 0 0 5px #ff7bff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+  }
+  to {
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff33ff, 0 0 30px #ff33ff;
+  }
+}
+
+/* Card com efeito RGB */
+#card-ask {
+  width: 100%;           /* ocupa todo o container */
+  height: 100%;          /* ocupa toda a altura */
+  max-width: 900px;      /* limite para não ficar gigante */
+  margin: 0 auto;        /* centraliza */
+  padding: 30px;         /* mantém respiro interno */
+  box-sizing: border-box;/* inclui padding no cálculo */
+}
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 900px;
+}
+.comments-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 por linha */
+  gap: 16px;
+  justify-content: center; /* centraliza os cards */
+  margin: 0 auto;
+  max-width: 950px; /* igual largura dos produtos */
+}
+
+.comment {
+  background: rgba(10, 10, 10, 0.9);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 0 8px rgba(200, 0, 255, 0.6);
+  transition: transform 0.2s ease-in-out;
+  max-width: 200px; /* menorzinho */
+  margin: 0 auto;
+}
+
+.comment:hover {
+  transform: translateY(-5px);
+}
+
+.comment img {
+  width: 40px;   /* menor */
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: 6px;
+}
+
+.comment strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #b84dff;
+  text-transform: uppercase;
+}
+
+.comment p {
+  font-size: 13px;
+  margin-top: 6px;
+  color: #ddd;
+}
+.comment {
+  background: linear-gradient(145deg, #0d0d0d, #1a001a); /* fundo dark igual */
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(200, 0, 255, 0.6), 
+              0 0 25px rgba(0, 200, 255, 0.4); /* neon colorido */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.comment:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 20px rgba(255, 0, 200, 0.8),
+              0 0 30px rgba(0, 200, 255, 0.6); /* brilho mais forte */
+}
+
+.comment strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  color: #ff66ff; /* cor neon no nome */
+  text-transform: uppercase;
+}
+
+.comment p {
+  font-size: 13px;
+  margin-top: 6px;
+  color: #ffffff; /* deixa o texto claro */
+}
 
     /* ---------- Reset e base ---------- */
     *,*::before,*::after{box-sizing:border-box}
@@ -56,6 +258,584 @@
       -moz-osx-font-smoothing:grayscale;
       line-height:1.45;
     }
+    .comment-form {
+  margin: 60px auto 40px auto; /* mais espaço em cima e embaixo */
+  max-width: 800px;            /* mais largo */
+  width: 100%;
+  background: rgba(10, 10, 10, 0.9);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 0 15px rgba(255, 0, 200, 0.6),
+              0 0 25px rgba(0, 200, 255, 0.4);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.comment-form:hover {
+  box-shadow: 0 0 20px rgba(255, 0, 200, 0.8),
+              0 0 35px rgba(0, 200, 255, 0.6);
+}
+
+.comment-form textarea {
+  width: 100%;
+  min-height: 60px;   /* altura menor */
+  max-height: 120px;  /* impede de ficar gigante */
+  border-radius: 8px;
+  border: none;
+  padding: 10px;
+  resize: vertical;
+  font-size: 14px;
+}
+.menu {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.menu .btn-grad {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff00ff, #00ffff);
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 0 12px rgba(255, 0, 200, 0.7),
+              0 0 20px rgba(0, 200, 255, 0.5);
+  transition: 0.3s ease;
+}
+
+.menu .btn-grad:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(255, 0, 200, 0.9),
+              0 0 30px rgba(0, 200, 255, 0.7);
+}
+.btn-neon {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.btn-neon::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+  border-radius: 10px;
+  z-index: -1;
+  filter: blur(6px);
+  animation: neon-flow 3s linear infinite;
+}
+
+@keyframes neon-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+      /* Neon pulse aplicado a todos os cards */
+.tarot-card, 
+.card, 
+.cat-card {
+  border-radius: 12px;
+  background: rgba(10, 10, 20, 0.8);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 
+              0 0 40px rgba(0, 128, 255, 0.2),
+              0 0 60px rgba(128, 0, 255, 0.2);
+  animation: neonPulse 2.5s infinite alternate;
+  transition: transform 0.3s ease-in-out;
+}
+
+.tarot-card:hover, 
+.card:hover, 
+.cat-card:hover {
+  transform: scale(1.03);
+}
+.comment-form {
+  margin: 40px auto;          /* centraliza e afasta dos cards de cima */
+  max-width: 600px;           /* largura máxima parecida com outros cards */
+  width: 100%;                /* ainda é responsivo */
+  background: rgba(10, 10, 10, 0.9);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(255, 0, 200, 0.6),
+              0 0 25px rgba(0, 200, 255, 0.4);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.comment-form:hover {
+  box-shadow: 0 0 20px rgba(255, 0, 200, 0.8),
+              0 0 35px rgba(0, 200, 255, 0.6);
+}
+
+.comment-form textarea {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 8px;
+  border: none;
+  padding: 10px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+/* Fonte e efeito igual ao Card Especial */
+.card-neon {
+  font-family: 'Cinzel', serif;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.6), 0 0 24px rgba(0, 200, 255, 0.4);
+  animation: neonPulse 2.2s infinite alternate;
+}
+.moon-card {
+  max-width: 280px;         /* mesma largura dos outros cards */
+  margin: 0 auto;           /* centraliza */
+  padding: 20px;
+  border-radius: 16px;      /* borda arredondada */
+  background: rgba(10, 10, 10, 0.9);
+  text-align: center;
+  box-shadow: 0 0 12px rgba(200, 0, 255, 0.6); /* neon */
+  transition: transform 0.2s ease-in-out;
+}
+
+.moon-card:hover {
+  transform: translateY(-5px); /* efeito hover igual aos outros */
+}
+
+/* título */
+.moon-card h3 {
+  font-size: 18px;
+  color: #ff7bff;  /* rosa neon */
+  margin: 10px 0;
+}
+
+/* subtítulos/texto */
+.moon-card p {
+  font-size: 14px;
+  color: #b3e5ff; /* azul claro */
+}
+
+/* Pulsante */
+@keyframes neonPulse {
+  from {
+    text-shadow: 0 0 8px #00eaff, 0 0 16px #00c3ff, 0 0 32px #009dff;
+  }
+  to {
+    text-shadow: 0 0 12px #ffffff, 0 0 24px #00d9ff, 0 0 40px #00aaff;
+  }
+}
+.card-neon {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  /* Glow neon galáctico */
+  box-shadow: 
+    0 0 15px rgba(0, 200, 255, 0.6),
+    0 0 30px rgba(170, 0, 255, 0.5),
+    0 0 45px rgba(0, 200, 255, 0.3);
+.card {
+  margin: 20px auto; /* centraliza no meio */
+  max-width: 800px; /* limita o tamanho dos cards */
+}
+.card + .card {
+  margin-top: 30px; /* espaço entre cards */
+}
+@media (max-width: 768px) {
+  .card {
+    max-width: 95%; /* ocupa quase toda tela no celular */
+    padding: 16px;
+  }
+
+  .category-grid, .products-grid {
+    grid-template-columns: 1fr; /* 1 card por linha */
+  }
+
+  h2, h3, p {
+    text-align: center; /* títulos centralizados no mobile */
+  }
+}
+  /* Animação pulsante */
+  animation: neonPulse 2.5s infinite alternate;
+}
+
+@keyframes neonPulse {
+  from {
+    box-shadow: 
+      0 0 8px rgba(0, 200, 255, 0.5),
+      0 0 16px rgba(170, 0, 255, 0.4),
+      0 0 24px rgba(0, 200, 255, 0.2);
+  }
+  to {
+    box-shadow: 
+      0 0 20px rgba(0, 200, 255, 0.9),
+      0 0 40px rgba(170, 0, 255, 0.7),
+      0 0 60px rgba(0, 200, 255, 0.5);
+  }
+}
+/* 🔮 Estilo global para todos os cards */
+.card {
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+
+  /* Fundo gradiente translúcido RGB */
+  background: linear-gradient(135deg, 
+    rgba(0, 200, 255, 0.15),   /* azul neon */
+    rgba(170, 0, 255, 0.15),   /* roxo neon */
+    rgba(255, 0, 120, 0.15)    /* rosa neon */
+  );
+
+  /* Bordas suaves */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  /* Glow neon galáctico */
+  box-shadow:
+    0 0 10px rgba(0, 200, 255, 0.7),
+    0 0 20px rgba(170, 0, 255, 0.6),
+    0 0 40px rgba(255, 0, 120, 0.5);
+
+  /* Pulsação contínua */
+  animation: rgbPulse 3s infinite alternate;
+}
+
+/* ✨ Animação de pulsação */
+@keyframes rgbPulse {
+  0% {
+    box-shadow:
+      0 0 10px rgba(0, 200, 255, 0.7),
+      0 0 20px rgba(170, 0, 255, 0.6),
+      0 0 40px rgba(255, 0, 120, 0.5);
+  }
+  100% {
+    box-shadow:
+      0 0 20px rgba(0, 200, 255, 1),
+      0 0 40px rgba(170, 0, 255, 0.9),
+      0 0 60px rgba(255, 0, 120, 0.8);
+  }
+}
+/* Animação neon */
+@keyframes neonPulse { }
+  from {
+    box-shadow: 0 0 10px #00f0ff, 0 0 12px #a200ff, 0 0 18px #ffffff;
+                0 0 20px rgb(0, 195, 255), 0 0 20px #00f0ff, 0 0 28px #00f0ff;
+                0 0 30px #00f0ff, 0 0 16px #ffffff, 0 0 24px #00f0ff;
+  }
+
+  to {
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.7),
+                0 0 45px rgba(0, 128, 255, 0.6),
+                0 0 70px rgba(128, 0, 255, 0.6);
+  }
+/* Botão Comprar - Neon gradiente pulsante */
+.btn.neon-buy {
+  background: linear-gradient(135deg, #ff0080, #ff8c00);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 0 12px rgba(255, 0, 128, 0.6), 0 0 24px rgba(255, 140, 0, 0.6);
+  animation: neonPulse 2s infinite alternate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.logo-text {
+  background: linear-gradient(90deg, #a855f7, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  animation: pulseNeon 2.5s infinite ease-in-out;
+  text-shadow: 0 0 10px #9333ea, 0 0 20px #3b82f6;
+}
+.btn-neon {
+  background: linear-gradient(90deg, #a855f7, #3b82f6);
+  color: white;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: bold;
+  animation: pulseNeon 2s infinite ease-in-out;
+  box-shadow: 0 0 10px #3b82f6, 0 0 20px #9333ea;
+}
+.categories h4 {
+  background: linear-gradient(90deg, #a855f7, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulseNeon 2.8s infinite ease-in-out;
+  text-shadow: 0 0 8px #9333ea, 0 0 18px #3b82f6;
+}
+.card-title, 
+.card-content {
+  background: linear-gradient(90deg, #a855f7, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulseNeon 2.5s infinite ease-in-out;
+  text-shadow: 0 0 12px #9333ea, 0 0 24px #3b82f6;
+}
+.btn-buy {
+  background: linear-gradient(90deg, #ec4899, #f59e0b);
+  color: white;
+  border-radius: 12px;
+  font-weight: bold;
+  padding: 10px 18px;
+  animation: pulseFire 2.2s infinite ease-in-out;
+  box-shadow: 0 0 12px #f59e0b, 0 0 20px #ec4899;
+}
+
+@keyframes pulseFire {
+  0% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
+  50% { box-shadow: 0 0 20px #f59e0b, 0 0 35px #ec4899; }
+  100% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
+}
+.btn-buy {
+  background: linear-gradient(90deg, #ec4899, #f59e0b);
+  color: white;
+  border-radius: 12px;
+  font-weight: bold;
+  padding: 10px 18px;
+  animation: pulseFire 2.2s infinite ease-in-out;
+  box-shadow: 0 0 12px #f59e0b, 0 0 20px #ec4899;
+}
+
+@keyframes pulseFire {
+  0% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
+  50% { box-shadow: 0 0 20px #f59e0b, 0 0 35px #ec4899; }
+  100% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
+}
+.btn-buy {
+  background: linear-gradient(90deg, #ec4899, #f59e0b);
+  color: white;
+  border-radius: 12px;
+  font-weight: bold;
+  padding: 10px 18px;
+  animation: pulseFire 2.2s infinite ease-in-out;
+  box-shadow: 0 0 12px #f59e0b, 0 0 20px #ec4899;
+}
+
+@keyframes pulseFire {
+  0% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
+  50% { box-shadow: 0 0 20px #f59e0b, 0 0 35px #ec4899; }
+  100% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
+}
+/* ====== Centralizar todos os cards ====== */
+
+/* Cards comuns */
+.card {
+  margin: 0 auto;        /* centraliza */
+  max-width: 600px;      /* largura ideal */
+  width: 100%;
+}
+
+/* Card da Lua */
+.moon-wrap {
+  display: flex;
+  justify-content: center;  /* centraliza horizontal */
+  margin: 30px auto;
+}
+.moon-card {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+.more-categories {
+  margin-top: 60px;   /* afasta dos cards de cima */
+  text-align: center; /* mantém centralizado */
+}
+
+.category-grid {
+  margin-top: 20px;   /* separa o título dos cards */
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;          /* espaço entre os cards internos */
+}
+
+/* Card Especial (final da página) */
+.bot
+
+/* Card neon para Categories */
+.cat-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  animation: pulseNeon 3s infinite alternate;
+  box-shadow: 0 0 20px rgba(0,198,255,0.4), 0 0 40px rgba(255,0,128,0.3);
+}
+
+.cat-card a {
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  background: linear-gradient(90deg,#00c6ff,#0072ff,#ff0080,#ff8c00);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
+  text-shadow: 0 0 12px rgba(0,198,255,0.8), 0 0 24px rgba(255,0,128,0.6);
+}
+
+/* Centralizar grid no meio */
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  justify-items: center;
+  margin-top: 20px;
+}
+
+.category-grid .cat-card {
+  width: 100%;
+  max-width: 400px; /* cada categoria com card próprio centralizado */
+}
+
+/* Botão Detalhes - apenas pulsante */
+.btn.neon-details {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, .25);
+  color: #fff;
+  font-weight: 600;
+  animation: neonPulseSoft 2s infinite alternate;
+}
+/* Neon pulsante para blocos inteiros */
+.neon-block {
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 8s ease infinite, pulseNeon 2.5s infinite alternate;
+  text-shadow: 0 0 12px rgba(0,198,255,0.8),
+               0 0 24px rgba(255,0,128,0.6);
+  text-align: center;
+}
+/* Pulsar forte (para Comprar) */
+@keyframes neonPulse {
+  from { box-shadow: 0 0 12px rgba(255,0,128,0.5), 0 0 24px rgba(255,140,0,0.5); }
+  to   { box-shadow: 0 0 20px rgba(255,0,128,0.9), 0 0 40px rgba(255,140,0,0.9); }
+}
+/* Card neon de fundo */
+.neon-card-bg {
+  background: rgba(10, 10, 20, 0.6);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0,198,255,0.35);
+  animation: pulseNeon 2.5s infinite alternate;
+}
+
+/* Itens centralizados dentro de cards */
+.neon-card-bg a {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  font-weight: bold;
+  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
+}
+
+/* Pulsante para textos especiais */
+.neon-pulse {
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 8s ease infinite, pulseNeon 2.5s infinite alternate;
+  text-shadow: 0 0 12px rgba(0,198,255,0.8),
+               0 0 24px rgba(255,0,128,0.6);
+}
+
+/* Pulsar suave (para Detalhes) */
+@keyframes neonPulseSoft {
+  from { box-shadow: 0 0 6px rgba(255,255,255,0.2); }
+  to   { box-shadow: 0 0 14px rgba(255,255,255,0.6); }
+}
+/* Card de fundo para títulos */
+.section-title-card {
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0,198,255,0.7), 0 0 30px rgba(255,0,128,0.5);
+  text-align: center;
+  margin: 0 auto 25px auto;
+  animation: pulseNeon 3s infinite alternate;
+}
+
+/* Texto neon visível */
+.section-title-card h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(90deg,#00c6ff,#ff0080,#ff8c00);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
+  text-shadow: 0 0 12px rgba(0,198,255,0.8), 0 0 24px rgba(255,0,128,0.6);
+}
+
+/* Cards de categorias */
+.category-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.cat-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 280px;   /* agora ajustável */
+  height: 120px;
+  border-radius: 14px;
+  background: rgba(0,0,0,0.7);
+  text-align: center;
+  animation: pulseNeon 3s infinite alternate;
+  box-shadow: 0 0 15px rgba(0,198,255,0.4), 0 0 25px rgba(255,0,128,0.3);
+}
+
+.cat-card a {
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  background: linear-gradient(90deg,#00c6ff,#ff0080,#ff8c00);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
+  text-shadow: 0 0 10px rgba(0,198,255,0.8);
+}
 
     /* ---------- Container ---------- */
     .container{
@@ -63,6 +843,46 @@
       margin:0 auto;
       padding:22px 0;
     }
+a {
+  text-decoration: none;
+}
+.neon-buy {
+  text-decoration: none; /* remove a linha */
+  display: inline-block; /* garante que fique como botão */
+}
+/* Neon pulsante aplicado a tudo */
+.neon-text {
+  text-align: center;
+  background: linear-gradient(135deg, #00f9ff, #7a5fff, #ff00f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: pulseNeon 2.5s infinite alternate;
+  text-shadow: 0 0 8px rgba(0, 249, 255, 0.6),
+               0 0 16px rgba(122, 95, 255, 0.5),
+               0 0 24px rgba(255, 0, 247, 0.4);
+}
+
+/* Aplica pulsar em blocos inteiros (cards) */
+.neon-card {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(0, 249, 255, 0.4);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 12px auto;
+  animation: pulseNeon 3s infinite alternate;
+  box-shadow: 0 0 14px rgba(0, 249, 255, 0.4),
+              0 0 28px rgba(122, 95, 255, 0.35),
+              0 0 40px rgba(255, 0, 247, 0.25);
+  max-width: 720px;
+}
+
+/* Animação */
+@keyframes pulseNeon {
+  0% { opacity: 0.9; text-shadow: 0 0 8px #00f9ff, 0 0 16px #7a5fff, 0 0 24px #ff00f7; }
+  100% { opacity: 1; text-shadow: 0 0 16px #00f9ff, 0 0 28px #7a5fff, 0 0 40px #ff00f7; }
+}
 
     /* ---------- Header ---------- */
     .header{
@@ -99,6 +919,88 @@
       margin-top:20px;
       align-items:stretch;
     }
+/* ===== TEXTOS PULSANTES ===== */
+.neon-text {
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #9d00ff, #ff0080, #ff8c00);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 8s ease infinite, pulseNeon 2s infinite alternate;
+  text-shadow: 0 0 12px rgba(0,198,255,0.8), 0 0 24px rgba(255,0,128,0.6);
+}
+
+/* ===== BOTÕES GALÁCTICOS PULSANTES ===== */
+.btn-neon {
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
+  background-size: 300% 300%;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-shadow: 0 0 6px #fff;
+  box-shadow: 0 0 12px rgba(0,198,255,0.7), 0 0 28px rgba(255,0,128,0.5);
+  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn-neon:hover {
+  transform: scale(1.05);
+}
+/* ===== TEXTOS PULSANTES ===== */
+.neon-text {
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #9d00ff, #ff0080, #ff8c00);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 8s ease infinite, pulseNeon 2s infinite alternate;
+  text-shadow: 0 0 12px rgba(0,198,255,0.8), 0 0 24px rgba(255,0,128,0.6);
+}
+
+/* ===== BOTÕES GALÁCTICOS PULSANTES ===== */
+.btn-neon {
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
+  background-size: 300% 300%;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-shadow: 0 0 6px #fff;
+  box-shadow: 0 0 12px rgba(0,198,255,0.7), 0 0 28px rgba(255,0,128,0.5);
+  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn-neon:hover {
+  transform: scale(1.05);
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseNeon {
+  0% { text-shadow: 0 0 8px rgba(0,198,255,0.6), 0 0 20px rgba(255,0,128,0.4); }
+  100% { text-shadow: 0 0 18px rgba(0,198,255,1), 0 0 40px rgba(255,0,128,0.8); }
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseNeon {
+  0% { text-shadow: 0 0 8px rgba(0,198,255,0.6), 0 0 20px rgba(255,0,128,0.4); }
+  100% { text-shadow: 0 0 18px rgba(0,198,255,1), 0 0 40px rgba(255,0,128,0.8); }
+}
 
     /* Card base: centraliza conteúdo (resolve alinhamento) */
     .card{
@@ -273,22 +1175,26 @@
         </div>
       </div>
 
-      <nav class="topnav" role="navigation" aria-label="Navegação principal">
-        <a href="#products">Produtos</a>
-        <a href="#tarot">Tarot</a>
-        <a href="#comments">Comentários</a>
-        <a class="whatsapp" href="https://web.whatsapp.com/" target="_blank" rel="noopener">WhatsApp</a>
-      </nav>
+<nav class="menu">
+  <a href="#produtos" class="btn-neon">Produtos</a>
+  <a href="#tarot" class="btn-neon">Tarot</a>
+  <a href="https://wa.me/xxxxxx" target="_blank" class="btn-neon">WhatsApp</a>
+</nav>
+
     </div>
   </header>
 
   <!-- HERO -->
-  <section class="hero" role="region" aria-label="Hero">
-    <div class="container">
-      <h2>BEM-VINDA À EVILHOTGIRL STORE</h2>
-      <p class="lead">Peças góticas, tarot exclusivo, consultas com sua Robozinha — tudo envolto em galáxia e mistério.</p>
+<section class="hero" role="region" aria-label="Hero">
+  <div class="container">
+    <div class="card" id="card-ask" aria-labelledby="card-ask-title">
+      <h3 class="neon-pulse">BEM-VINDA À EVILHOTGIRL STORE</h3>
+      <p class="neon-pulse">
+        "Peças góticas, tarot exclusivo, consultas com sua Robozinha — tudo envolto em galáxia e mistério."
+      </p>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- THREE MAIN CARDS -->
   <main role="main">
@@ -297,11 +1203,10 @@
 
         <!-- CARD 1: PERGUNTA (corrigido) -->
         <article class="card" id="card-ask" aria-labelledby="card-ask-title">
-          <h3 id="card-ask-title">🔮 Mande sua pergunta</h3>
-          <p class="muted">Ex: Encontrarei amor?</p>
+          <h3 class="neon-text">🔮 Mande sua pergunta</h3>
 
           <div class="input-box" role="form" aria-label="Formulário de pergunta">
-            <input id="ask-input" type="text" placeholder="Ex: Encontrarei amor?" aria-label="Campo de pergunta">
+            <input id="ask-input" type="text" placeholder="Ex: Eu irei ter sorte?" aria-label="Campo de pergunta">
           </div>
 
           <div style="margin-top:10px;display:flex;gap:10px;justify-content:center;width:100%">
@@ -312,8 +1217,8 @@
 
         <!-- CARD 2: TAROT -->
         <article class="card" id="card-tarot" aria-labelledby="card-tarot-title">
-          <h3 id="card-tarot-title">✨ Pergunte ao Tarot</h3>
-          <p class="muted">As 2 primeiras cartas são gratuitas — a 3ª exige pagamento</p>
+          <h3 class="neon-text">✨ Pergunte ao Tarot</h3>
+          <p class="neon-text">As 2 primeiras cartas são gratuitas — a 3ª exige pagamento.</p>
 
           <div id="tarot-area" style="display:flex;gap:12px;justify-content:center;align-items:flex-start;margin-top:12px;width:100%;">
             <!-- 3 placeholders de cartas (botões) -->
@@ -327,180 +1232,235 @@
           <div id="tarot-result" style="margin-top:12px;color:var(--muted);min-height:44px"></div>
 
           <div style="margin-top:10px;">
-            <small class="muted">As cartas revelam imagens simbólicas. A 3ª carta direciona para pagamento.</small>
+            <small class="neon-text">As cartas revelam imagens simbólicas. A 3ª carta direciona para pagamento.</small>
           </div>
         </article>
 
         <!-- CARD 3: CONSULTA -->
         <article class="card" id="card-book" aria-labelledby="card-book-title">
-          <h3 id="card-book-title">🔵 Realize sua consulta</h3>
-          <p class="muted">Sessões ao vivo por agendamento.</p>
+          <h3 class="neon-text">🔵 Realize sua consulta</h3>
+          <p class="neon-text">Sessões ao vivo por agendamento.</p>
 
           <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;width:100%">
-            <button id="btn-agendar" class="btn btn-grad">Agendar (WhatsApp)</button>
-            <button id="btn-info" class="btn btn-ghost">Mais info</button>
-          </div>
-
-          <div style="margin-top:12px">
-            <button class="btn-compra">🛒 Comprar Agora</button>
+            <button class="btn-neon">Agendar WhatsApp</button>
+            <button class="btn-neon">Mais Informaçoes</button>
           </div>
 
         </article>
 
       </div>
     </section>
+        <!-- PROMO STRIP -->
+<div style="text-align:center; margin: 40px 0;">
+  <h2 class="btn-neon" style="display:inline-block;padding:10px 18px;">
+    ✨ Sua Robozinha Galáctica
+  </h2>
+  <p class="btn-neon" style="margin-top:12px; font-size:15px; font-style:italic;">
+    "A Lua escuta, o baralho revela, e eu cuido do resto. Pergunte, sinta, transforme."
+  </p>
+</div>
 
-    <!-- PROMO STRIP -->
-    <section>
-      <div class="container" style="margin-top:18px;">
-        <div style="padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);text-align:center;color:var(--muted)">
-          <strong style="color:var(--accent2)">✨ Sua Robozinha Galáctica</strong>
-          <div style="margin-top:8px">"A Lua escuta, o baralho revela, e eu cuido do resto. Pergunte, sinta, transforme."</div>
-        </div>
-      </div>
+      </div>>
     </section>
-
     <!-- PRODUCTS -->
     <section id="products">
       <div class="container">
-        <h3 style="font-family:'Cinzel',serif;color:var(--accent1)">Ofertas em Destaque</h3>
-
         <div class="products-grid" style="margin-top:12px;">
-          <article class="product">
-            <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-            <h4>Vestido Gótico • Noite</h4>
-            <div class="desc">Corte vintage</div>
-            <div class="price">R$ 199,90</div>
-            <div style="margin-top:10px">
-              <button class="btn-compra" data-product="Vestido Gótico">🛒 Comprar</button>
-            </div>
+<div class="product card">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
+  <h4>Vestido Gótico • Noite</h4>
+  <div class="desc">Corte vintage</div>
+  <div class="price">R$ 199,90</div>
+  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
+</div>
           </article>
 
-          <article class="product">
-            <img src="assets/img/img2.jpg" alt="Chapéu">
-            <h4>Chapéu de Bruxa</h4>
-            <div class="desc">Ajustável</div>
-            <div class="price">R$ 89,90</div>
-            <div style="margin-top:10px">
-              <button class="btn-compra" data-product="Chapéu de Bruxa">🛒 Comprar</button>
-            </div>
+<div class="product card">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
+  <h4>Vestido Gótico • Noite</h4>
+  <div class="desc">Corte vintage</div>
+  <div class="price">R$ 199,90</div>
+  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
+</div>
           </article>
 
-          <article class="product">
-            <img src="assets/img/img3.jpg" alt="Colar">
-            <h4>Colar Oculto</h4>
-            <div class="desc">Banho prateado</div>
-            <div class="price">R$ 59,90</div>
-            <div style="margin-top:10px">
-              <button class="btn-compra" data-product="Colar Oculto">🛒 Comprar</button>
-            </div>
+<div class="product card">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
+  <h4>Vestido Gótico • Noite</h4>
+  <div class="desc">Corte vintage</div>
+  <div class="price">R$ 199,90</div>
+  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
+</div>
           </article>
 
-          <article class="product">
-            <img src="assets/img/img4.jpg" alt="Livro">
-            <h4>Livro de Magia</h4>
-            <div class="desc">Edição limitada</div>
-            <div class="price">R$ 149,90</div>
-            <div style="margin-top:10px">
-              <button class="btn-compra" data-product="Livro de Magia">🛒 Comprar</button>
-            </div>
+<div class="product card">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
+  <h4>Vestido Gótico • Noite</h4>
+  <div class="desc">Corte vintage</div>
+  <div class="price">R$ 199,90</div>
+  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
+</div>
           </article>
         </div>
 
         <!-- second product row -->
         <div class="products-grid" style="margin-top:12px;">
-          <article class="product"><img src="assets/img/img5.jpg" alt="Kit Velas"><h4>Kit Velas Ritual</h4><div class="price">R$ 49,90</div><div style="margin-top:10px"><button class="btn-compra" data-product="Kit Velas">🛒 Comprar</button></div></article>
-          <article class="product"><img src="assets/img/img6.jpg" alt="Brinco"><h4>Brinco Eclipse</h4><div class="price">R$ 39,90</div><div style="margin-top:10px"><button class="btn-compra" data-product="Brinco Eclipse">🛒 Comprar</button></div></article>
-          <article class="product"><img src="assets/img/img7.jpg" alt="Capa"><h4>Capa Sombria</h4><div class="price">R$ 259,90</div><div style="margin-top:10px"><button class="btn-compra" data-product="Capa Sombria">🛒 Comprar</button></div></article>
-          <article class="product"><img src="assets/img/img8.jpg" alt="Relic"><h4>Relíquia Lunar</h4><div class="price">R$ 349,90</div><div style="margin-top:10px"><button class="btn-compra" data-product="Relíquia Lunar">🛒 Comprar</button></div></article>
-        </div>
+<div class="product card">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
+  <h4>Vestido Gótico • Noite</h4>
+  <div class="desc">Corte vintage</div>
+  <div class="price">R$ 199,90</div>
+  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
+</div>
+          </article>
+<div class="product card">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
+  <h4>Vestido Gótico • Noite</h4>
+  <div class="desc">Corte vintage</div>
+  <div class="price">R$ 199,90</div>
+  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
+</div>
+          </article>
+<div class="product card">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
+  <h4>Vestido Gótico • Noite</h4>
+  <div class="desc">Corte vintage</div>
+  <div class="price">R$ 199,90</div>
+  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
+</div>
+          </article>
+<div class="product card">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
+  <h4>Vestido Gótico • Noite</h4>
+  <div class="desc">Corte vintage</div>
+  <div class="price">R$ 199,90</div>
+  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
+</div>
+          </article>
 
       </div>
     </section>
-
-    <!-- CATEGORIES -->
-    <section>
-      <div class="container">
-        <h3 style="font-family:'Cinzel',serif;color:var(--accent1)">More Categories</h3>
-        <div class="category-grid" style="margin-top:12px;">
-          <div class="cat-card" style="background-image:url('assets/img/cat1.jpg')"><a href="#accessories">Accessories</a></div>
-          <div class="cat-card" style="background-image:url('assets/img/cat2.jpg')"><a href="#bridal">Bridal Headpieces & Veils</a></div>
-          <div class="cat-card" style="background-image:url('assets/img/cat3.jpg')"><a href="#gifts">Gifts</a></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- COMMENTS (4 + 4) -->
-    <section id="comments">
-      <div class="container">
-        <h3 style="font-family:'Cinzel',serif;color:var(--accent1)">Comentários</h3>
-
-        <div class="comments-grid" style="margin-top:12px;">
-          <div class="comment"><img src="assets/img/c1.jpg" alt="Ana"><strong>Ana</strong><p>"Encantada com o atendimento — muito sensível."</p></div>
-          <div class="comment"><img src="assets/img/c2.jpg" alt="Marina"><strong>Marina</strong><p>"Tarot certeiro — me ajudou a decidir."</p></div>
-          <div class="comment"><img src="assets/img/c3.jpg" alt="Bea"><strong>Bea</strong><p>"Produto lindo, chegou embalado com carinho."</p></div>
-          <div class="comment"><img src="assets/img/c4.jpg" alt="Luiza"><strong>Luiza</strong><p>"Atendimento top, recomendo."</p></div>
-        </div>
-
-        <div class="comments-grid" style="margin-top:14px;">
-          <div class="comment"><img src="assets/img/c5.jpg" alt="João"><strong>João</strong><p>"Gostei muito, entrega rápida."</p></div>
-          <div class="comment"><img src="assets/img/c6.jpg" alt="Clara"><strong>Clara</strong><p>"Sensacional — voltarei a comprar."</p></div>
-          <div class="comment"><img src="assets/img/c7.jpg" alt="Pedro"><strong>Pedro</strong><p>"Valeu a pena, produto fiel."</p></div>
-          <div class="comment"><img src="assets/img/c8.jpg" alt="Rafa"><strong>Rafa</strong><p>"Recomendo a todos."</p></div>
-        </div>
-
-        <div class="comment-form" style="margin-top:18px;text-align:center;">
-          <textarea id="comment-input" placeholder="Escreva seu comentário..."></textarea>
-          <div style="margin-top:12px;display:flex;justify-content:center;gap:12px;">
-            <button id="send-comment" class="btn btn-grad">Enviar comentário</button>
-            <button id="clear-comment" class="btn btn-ghost">Limpar</button>
-          </div>
-        </div>
-
-      </div>
-    </section>
+    
+<!-- COMENTÁRIOS -->
+<section>
+<div style="text-align:center; margin: 30px 0;">
+  <h2 class="btn-neon" style="display:inline-block;padding:10px 18px;">
+    ✨ Sua Robozinha Galáctica
+  </h2>
+  <p style="margin-top:12px; font-size:15px; color:#fff; font-style:italic;">
+    "A Lua escuta, o baralho revela, e eu cuido do resto. Pergunte, sinta, transforme."
+  </p>
+</div>
 
     <!-- MOON CARD -->
-    <section>
-      <div class="container">
-        <div class="moon-wrap">
-          <div class="moon-card" role="region" aria-label="Card da Lua">
-            <div class="moon-emoji" id="moon-emoji">🌙</div>
-            <h4>Card da Lua</h4>
-            <div id="moon-phase" class="meta">Fase: --</div>
-            <div id="now-dt" class="meta">--/--/---- • --:--:--</div>
-            <p id="moon-phrase" style="color:var(--muted);margin-top:8px">Meu amor te acompanha em cada noite e em cada suspiro.</p>
+<div class="moon-wrap">
+  <div class="card moon-card" role="region" aria-label="Card da Lua">
+    <div class="moon-emoji" id="moon-emoji">🌙</div>
+    <h4 class="neon-pulse">Card da Lua</h4>
+    <div id="moon-phase" class="meta">Fase: --</div>
+    <div id="now-dt" class="meta">--/--/---- • --:--:--</div>
+    <p id="moon-phrase" class="neon-pulse">Meu amor te acompanha em cada noite e em cada suspiro.</p>
 
-            <div class="moon-actions" style="margin-top:12px;">
-              <input id="moon-city" placeholder="Buscar cidade para Lua (ex: Gravata Pernambuco)" />
-              <button id="moon-search" class="btn btn-grad">Buscar</button>
-              <button id="moon-reset" class="btn btn-ghost">Reset (Santiago)</button>
-            </div>
+    <div class="moon-actions" style="margin-top:12px;">
+      <input id="moon-city" placeholder="Buscar cidade para Lua (ex: Gravata Pernambuco)" />
+      <button id="moon-search" class="btn btn-grad">Buscar</button>
+      <button id="moon-reset" class="btn btn-ghost">Reset (Santiago)</button>
+    </div>
 
-            <div id="rise-set" class="meta" style="margin-top:10px"></div>
-            <div style="margin-top:8px;color:var(--muted);font-size:12px">API lunar configurável — chave no script</div>
-          </div>
-        </div>
+    <div id="rise-set" class="meta" style="margin-top:10px"></div>
+    <div style="margin-top:8px;color:var(--muted);font-size:12px"> </div>
+  </div>
+</div>
 
         <!-- bottom two cards -->
+
+
         <div class="bottom-cards" style="margin-top:22px">
-          <div class="bot">
-            <h4 style="font-family:'Cinzel',serif;color:var(--accent1)">Card Especial — Mensagem</h4>
-            <p class="muted">"Hoje a Lua sussurra — deixa ir o que não serve."</p>
-          </div>
-          <div class="bot">
-            <h4 style="font-family:'Cinzel',serif;color:var(--accent1)">Dados locais</h4>
-            <p class="muted">Use o buscador para horários de nascer/pôr.</p>
-          </div>
+          <div class="bot"> 
+<div class="card" id="card-ask" aria-labelledby="card-ask-title">
+  <h3 class="neon-pulse">Card Especial — Mensagem</h3>
+  <p class="neon-pulse">"Hoje a Lua sussurra — deixa ir o que não serve."</p>
+</div>
+
         </div>
 
       </div>
     </section>
 
   </main>
+<!-- CATEGORIES -->
+<section>
+       
+  <article class="card" id="card-ask" aria-labelledby="card-ask-title">
+          <h3 class="neon-text">More Categories</h3>
+    <div class="category-grid">
+      <div class="cat-card"><a href="#accessories">Accessories</a></div>
+      <div class="cat-card"><a href="#bridal">Bridal Headpieces & Veils</a></div>
+      <div class="cat-card"><a href="#gifts">Gifts</a></div>
+    </div>
+  </div>
+</section>
 
-  <!-- FLOATING PURCHASE BUTTON (sempre visível) -->
-  <button class="btn-compra btn-compra-floating" id="floating-buy" aria-label="Comprar agora">🛒 Comprar</button>
+    <!-- aqui vai sua grid de comentários -->
+  </div>
+</section>
+
+
+        <div class="comments-grid" style="margin-top:12px;">
+          <div class="card comment">
+  <img src="assets/img/c1.jpg" alt="Ana">
+  <strong>Ana Thompson</strong>
+  <p>"Encantada com o atendimento — muito sensível."</p>
+</div>
+<div class="card comment">
+  <img src="assets/img/c2.jpg" alt="Ana">
+  <strong>Jeff Soares</strong>
+  <p>"O tarot certeiro me ajudou a tomar decisões difíceis.."</p>
+</div>
+<div class="card comment">
+  <img src="assets/img/c3.jpg" alt="Ana">
+  <strong>Hellena Farias</strong>
+  <p>"Atendimento maravilhoso, me senti acolhida em cada detalhe."</p>
+</div>
+<div class="card comment">
+  <img src="assets/img/c4.jpg" alt="Ana">
+  <strong>Lara Estrela</strong>
+  <p>"As peças chegaram embaladas com muito carinho. Amei!"</p>
+</div>
+<div class="card comment">
+  <img src="assets/img/c5.jpg" alt="Ana">
+  <strong>Firmino Silva</strong>
+  <p>"Entrega rápida e produto exatamente como descrito."</p>
+</div>
+<div class="card comment">
+  <img src="assets/img/c6.jpg" alt="Ana">
+  <strong>Meal Medeiros</strong>
+  <p>"Experiência incrível, recomendo para todos meus amigos."</p>
+</div>
+<div class="card comment">
+  <img src="assets/img/c7.jpg" alt="Ana">
+  <strong>Li Mei (李美)</strong>
+  <p>"A energia das consultas é única — valeu cada segundo."</p>
+</div>
+<div class="card comment">
+  <img src="assets/img/c8.jpg" alt="Ana">
+  <strong>Samuel Guimarães</strong>
+  <p>"Gostei muito, já virei cliente fiel da loja."</p>
+</div>
+
+        </div>
+
+<div class="comments-grid" style="margin-top:14px;">
+  <!-- aqui ficam só os comentários -->
+</div>
+<!-- aqui vem o formulário, fora da grid -->
+<div class="comment-form">
+  <textarea id="comment-input" placeholder="Escreva seu comentário..."></textarea>
+  <div style="margin-top:12px;display:flex;justify-content:center;gap:12px;">
+    <button class="btn-neon">Enviar (WhatsApp)</button>
+    <button id="clear-comment" class="btn btn-ghost">Limpar</button>
+  </div>
+</div>
 
   <!-- PLAYER -->
   <div class="player-corner" title="Player da Lua">
