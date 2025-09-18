@@ -252,12 +252,6 @@
  transform: translateY(-5px);
 }
 
-.neon-pulse {
- color: #ff7bff;
- text-shadow: 0 0 5px #ff7bff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
- animation: pulse 1.5s infinite alternate;
-}
-
 @keyframes pulse {
  from {
   text-shadow: 0 0 5px #ff7bff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
@@ -899,16 +893,6 @@
 }
 
 /* Pulsante para textos especiais */
-.neon-pulse {
- background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
- background-size: 300% 300%;
- -webkit-background-clip: text;
- -webkit-text-fill-color: transparent;
- animation: gradientShift 8s ease infinite, pulseNeon 2.5s infinite alternate;
- text-shadow: 0 0 12px rgba(0,198,255,0.8),
-        0 0 24px rgba(255,0,128,0.6);
-}
-
 /* Pulsar suave (para Detalhes) */
 @keyframes neonPulseSoft {
  from { box-shadow: 0 0 6px rgba(255,255,255,0.2); }
@@ -1326,10 +1310,57 @@ a {
 }
 </style>
 
+
+/* 📱 Mobile otimizado: efeitos góticos leves */
+@media (max-width: 768px) {
+  /* Fundo estático */
+  #bg-container video { display: none !important; }
+  #bg-container { background: url('bg-mobile.jpg') no-repeat center/cover; }
+
+  /* Textos neon fixos azul+roxo+rosa */
+  h1, h2, h3, .neon-pulse, .card h3, .card p {
+    background: linear-gradient(90deg, #00e1ff, #9d00ff, #ff0080);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 6px #9d00ff, 0 0 12px #00e1ff, 0 0 18px #ff0080;
+    animation: none !important;
+  }
+
+  /* Botões com gradiente fixo */
+  .btn-neon, .btn-neon-strong, .btn-grad {
+    background: linear-gradient(90deg, #00e1ff, #9d00ff, #ff0080);
+    color: #fff;
+    box-shadow: 0 0 10px #9d00ff, 0 0 15px #00e1ff;
+    font-size: 16px;
+    padding: 12px 24px;
+  }
+
+  /* Grids em coluna única */
+  .products-grid, .comments-grid, .cards-grid, .category-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Cards menores */
+  .card, .comment {
+    padding: 12px !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+
+  /* Player centralizado */
+  #audio-container {
+    bottom: 70px !important;
+    right: 50% !important;
+    transform: translateX(50%);
+  }
+}
+
 </head>
 
 <body>
-<div id="bg-container"></div>>
+<div id="bg-container"></div>
 
  <!-- HEADER -->
  <header class="header" role="banner" aria-label="Topo">
@@ -1379,10 +1410,7 @@ a {
      <div style="margin-top:10px;display:flex;gap:10px;justify-content:center;width:100%">
       <button id="send-whatsapp" class="btn btn-grad">Enviar (WhatsApp)</button>
       <button id="clear-ask" class="btn btn-ghost">Limpar</button>
-     </div>
-    </article>
-
-    <!-- CARD 2: TAROT -->
+     </div><!-- CARD 2: TAROT -->
     <article class="card" id="card-tarot" aria-labelledby="card-tarot-title">
      <h3 class="neon-text">✨ Pergunte ao Tarot</h3>
      <p class="neon-text">As 2 primeiras cartas são gratuitas — a 3ª exige pagamento.</p>
@@ -1400,10 +1428,7 @@ a {
 
      <div style="margin-top:10px;">
       <small class="neon-text">As cartas revelam imagens simbólicas. A 3ª carta direciona para pagamento.</small>
-     </div>
-    </article>
-
-    <!-- CARD 3: CONSULTA -->
+     </div><!-- CARD 3: CONSULTA -->
     <article class="card" id="card-book" aria-labelledby="card-book-title">
      <h3 class="neon-text">🔵 Realize sua consulta</h3>
      <p class="neon-text">Sessões ao vivo por agendamento.</p>
@@ -1411,11 +1436,7 @@ a {
      <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;width:100%">
       <button class="btn-neon">Agendar WhatsApp</button>
       <button class="btn-neon">Mais Informaçoes</button>
-     </div>
-
-    </article>
-
-   </div>
+     </div></div>
   </section>
     <!-- PROMO STRIP -->
 <div style="text-align:center; margin: 40px 0;">
@@ -1427,7 +1448,7 @@ a {
  </p>
 </div>
 
-   </div>>
+   </div>
   </section>
   <!-- PRODUCTS -->
   <section id="products">
@@ -1439,36 +1460,25 @@ a {
  <div class="desc">Corte vintage</div>
  <div class="price">R$ 199,90</div>
  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-     </article>
-
-<div class="product card">
+</div><div class="product card">
  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
  <h4>Vestido Gótico • Noite</h4>
  <div class="desc">Corte vintage</div>
  <div class="price">R$ 199,90</div>
  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-     </article>
-
-<div class="product card">
+</div><div class="product card">
  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
  <h4>Vestido Gótico • Noite</h4>
  <div class="desc">Corte vintage</div>
  <div class="price">R$ 199,90</div>
  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-     </article>
-
-<div class="product card">
+</div><div class="product card">
  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
  <h4>Vestido Gótico • Noite</h4>
  <div class="desc">Corte vintage</div>
  <div class="price">R$ 199,90</div>
  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-     </article>
-    </div>
+</div></div>
 
     <!-- second product row -->
     <div class="products-grid" style="margin-top:12px;">
@@ -1478,34 +1488,25 @@ a {
  <div class="desc">Corte vintage</div>
  <div class="price">R$ 199,90</div>
  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-     </article>
-<div class="product card">
+</div><div class="product card">
  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
  <h4>Vestido Gótico • Noite</h4>
  <div class="desc">Corte vintage</div>
  <div class="price">R$ 199,90</div>
  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-     </article>
-<div class="product card">
+</div><div class="product card">
  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
  <h4>Vestido Gótico • Noite</h4>
  <div class="desc">Corte vintage</div>
  <div class="price">R$ 199,90</div>
  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-     </article>
-<div class="product card">
+</div><div class="product card">
  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
  <h4>Vestido Gótico • Noite</h4>
  <div class="desc">Corte vintage</div>
  <div class="price">R$ 199,90</div>
  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-     </article>
-
-   </div>
+</div></div>
   </section>
   
 <!-- COMENTÁRIOS -->
