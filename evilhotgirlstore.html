@@ -65,6 +65,33 @@
     box-shadow: 0 0 8px #9d00ff;
   }
 }
+@media (max-width: 768px) {
+  /* Textos neon roxo+azul+rosa */
+  .neon-pulse, h1, h2, h3, .card h3, .card p {
+    background: linear-gradient(90deg, #00e1ff, #9d00ff, #ff0080);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 
+      0 0 6px #9d00ff,
+      0 0 12px #00e1ff,
+      0 0 18px #ff0080;
+  }
+
+  /* Botões no mesmo estilo */
+  .btn-neon, .btn-neon-strong, .btn-grad {
+    background: linear-gradient(90deg, #00e1ff, #9d00ff, #ff0080);
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-weight: bold;
+    box-shadow: 0 0 10px #9d00ff, 0 0 15px #00e1ff;
+  }
+
+  .btn-neon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ff0080, 0 0 25px #00e1ff;
+  }
+}
 
  /* Imagens menores */
  .product img {
