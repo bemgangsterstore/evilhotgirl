@@ -1253,124 +1253,39 @@ a {
     a{color:inherit}
   </style>
 
-<!-- Mobile optimization: lightweight defaults, heavy effects only on desktop -->
 <style id="mobile-optimization">
-/* Mobile-first: disable heavy visuals on narrow screens */
-@media (max-width: 780px) {
-  html,body { height: auto!important; overflow-y: auto!important; -webkit-overflow-scrolling: touch; }
-  /* Turn off heavy animations / shadows globally for mobile */
-  .card, .product, .comment, .cat-card, .btn-neon, .neon-card, .neon-card-bg, .player-corner, 
-  .btn-compra, .btn-compra-floating, .btn-neon-strong, .btn-buy, .neon-pulse, .btn-neon::before {
-    box-shadow: none !important;
+@media (max-width: 768px) {
+  /* Fundo estático para celular */
+  #bg-container video { display: none !important; }
+  #bg-container { background: url('bg-mobile.jpg') no-repeat center center fixed; background-size: cover; }
+
+  /* Desliga animações pesadas */
+  .card, .product, .comment, .btn-neon, .btn-neon-strong, .neon-pulse {
     animation: none !important;
-    filter: none !important;
-    text-shadow: none !important;
+    box-shadow: none !important;
+    text-shadow: 0 0 6px #550055, 0 0 12px #220022 !important;
   }
-  /* Simpler card sizing */
-  .card { min-height: auto !important; padding: 12px !important; }
-  /* Single-column grids for better performance */
-  .products-grid, .comments-grid, .category-grid, .cards-grid { 
-    grid-template-columns: 1fr !important; 
+
+  /* Ajusta grid para 1 coluna */
+  .products-grid, .comments-grid, .category-grid, .cards-grid {
+    grid-template-columns: 1fr !important;
     display: grid !important;
     gap: 12px !important;
   }
-  .product img, .comment img { width: 84px !important; height: auto !important; object-fit: cover !important; display:block; margin: 0 auto !important; }
-  /* Player compact */
-  .player-corner { right: 12px !important; bottom: 12px !important; padding: 8px !important; font-size: 13px !important; box-shadow:none !important; }
-  /* Prevent loading video in CSS; JS will decide which to load */
-  #bg-container video { display: none !important; }
-  #bg-container img { width:100%; height:100%; object-fit:cover; display:block; }
-  /* Reduce fonts */
-  h1 { font-size: 22px !important; line-height:1.15 !important; }
-  h2 { font-size: 14px !important; }
-  .comment-form textarea { min-height: 64px !important; max-height: 120px !important; }
-  /* make interactive elements larger/touch-friendly */
-  .btn, .btn-neon, .btn-compra { padding: 10px 14px !important; font-size: 15px !important; }
-  /* Avoid huge card min-heights */
-  .card[style*="min-height"], .card { min-height: auto !important; }
-  /* small devices: remove fixed positioning that can be costly */
-  footer, .header { position: static !important; width:100% !important; }
-}
-@media (min-width: 781px) {
-  /* Desktop keeps full effects (no change) */
+
+  /* Ajusta tamanho de texto e botões */
+  h1, h2 { font-size: 1.2rem !important; }
+  .btn-neon, .btn-neon-strong { font-size: 1rem !important; padding: 10px 18px !important; }
+
+  /* Player compacto e sem */
+  #audio-container { bottom: 70px; right: 50%; transform: translateX(50%); }
 }
 </style>
 
-<!-- Dynamic background loader: video only injected on desktop; image for mobile -->
-<script>
-(function(){
-  try{
-    var container = document.getElementById('bg-container');
-    if(!container){
-      // create and place at top of body if missing
-      container = document.createElement('div');
-      container.id = 'bg-container';
-      document.body.insertBefore(container, document.body.firstChild);
-    }
-    function useVideo(){
-      // create the video element (desktop)
-      if(document.getElementById('bg-video')) return;
-      var v = document.createElement('video');
-      v.id = 'bg-video';
-      v.setAttribute('playsinline','');
-      v.muted = true;
-      v.loop = true;
-      v.preload = 'auto';
-      v.autoplay = true;
-      v.style.position = 'fixed';
-      v.style.top = '0';
-      v.style.left = '0';
-      v.style.width = '100%';
-      v.style.height = '100%';
-      v.style.objectFit = 'cover';
-      v.style.zIndex = '-1';
-      var src = document.createElement('source');
-      src.src = 'mylivewallpapers-com-Night-of-Halloween-4K.mp4';
-      src.type = 'video/mp4';
-      v.appendChild(src);
-      container.appendChild(v);
-    }
-    function useImage(){
-      if(container.querySelector('img')) return;
-      var img = document.createElement('img');
-      img.src = 'bg-mobile.jpg';
-      img.alt = 'Background';
-      img.loading = 'lazy';
-      img.style.position = 'fixed';
-      img.style.top = '0';
-      img.style.left = '0';
-      img.style.width = '100%';
-      img.style.height = '100%';
-      img.style.objectFit = 'cover';
-      img.style.zIndex = '-1';
-      container.appendChild(img);
-    }
-    // Decide: desktop -> video, mobile -> image
-    if(window.innerWidth > 780 && !navigator.userAgent.match(/Mobi|Android/i)){
-      useVideo();
-    } else {
-      useImage();
-    }
-    // if user resizes (rotate), adapt once
-    var hasSwitched = false;
-    window.addEventListener('resize', function(){
-      if(hasSwitched) return;
-      if(window.innerWidth > 780 && !document.getElementById('bg-video')){
-        container.innerHTML = '';
-        useVideo();
-        hasSwitched = true;
-      } else if(window.innerWidth <= 780 && !container.querySelector('img')){
-        container.innerHTML = '';
-        useImage();
-        hasSwitched = true;
-      }
-    }, {passive:true});
-  }catch(e){ console.warn('bg load error', e); }
-})();
-</script>
 </head>
 
 <body>
+<div id="bg-container"></div>
 
   <!-- HEADER -->
   <header class="header" role="banner" aria-label="Topo">
@@ -1475,7 +1390,7 @@ a {
       <div class="container">
         <div class="products-grid" style="margin-top:12px;">
 <div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
   <h4>Vestido Gótico • Noite</h4>
   <div class="desc">Corte vintage</div>
   <div class="price">R$ 199,90</div>
@@ -1484,7 +1399,7 @@ a {
           </article>
 
 <div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
   <h4>Vestido Gótico • Noite</h4>
   <div class="desc">Corte vintage</div>
   <div class="price">R$ 199,90</div>
@@ -1493,7 +1408,7 @@ a {
           </article>
 
 <div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
   <h4>Vestido Gótico • Noite</h4>
   <div class="desc">Corte vintage</div>
   <div class="price">R$ 199,90</div>
@@ -1502,7 +1417,7 @@ a {
           </article>
 
 <div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
   <h4>Vestido Gótico • Noite</h4>
   <div class="desc">Corte vintage</div>
   <div class="price">R$ 199,90</div>
@@ -1514,7 +1429,7 @@ a {
         <!-- second product row -->
         <div class="products-grid" style="margin-top:12px;">
 <div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
   <h4>Vestido Gótico • Noite</h4>
   <div class="desc">Corte vintage</div>
   <div class="price">R$ 199,90</div>
@@ -1522,7 +1437,7 @@ a {
 </div>
           </article>
 <div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
   <h4>Vestido Gótico • Noite</h4>
   <div class="desc">Corte vintage</div>
   <div class="price">R$ 199,90</div>
@@ -1530,7 +1445,7 @@ a {
 </div>
           </article>
 <div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
   <h4>Vestido Gótico • Noite</h4>
   <div class="desc">Corte vintage</div>
   <div class="price">R$ 199,90</div>
@@ -1538,7 +1453,7 @@ a {
 </div>
           </article>
 <div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico" loading="lazy">
+  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
   <h4>Vestido Gótico • Noite</h4>
   <div class="desc">Corte vintage</div>
   <div class="price">R$ 199,90</div>
@@ -1616,42 +1531,42 @@ a {
 
         <div class="comments-grid" style="margin-top:12px;">
           <div class="card comment">
-  <img src="assets/img/c1.jpg" alt="Ana" loading="lazy">
+  <img src="assets/img/c1.jpg" alt="Ana">
   <strong>Ana Thompson</strong>
   <p>"Encantada com o atendimento — muito sensível."</p>
 </div>
 <div class="card comment">
-  <img src="assets/img/c2.jpg" alt="Ana" loading="lazy">
+  <img src="assets/img/c2.jpg" alt="Ana">
   <strong>Jeff Soares</strong>
   <p>"O tarot certeiro me ajudou a tomar decisões difíceis.."</p>
 </div>
 <div class="card comment">
-  <img src="assets/img/c3.jpg" alt="Ana" loading="lazy">
+  <img src="assets/img/c3.jpg" alt="Ana">
   <strong>Hellena Farias</strong>
   <p>"Atendimento maravilhoso, me senti acolhida em cada detalhe."</p>
 </div>
 <div class="card comment">
-  <img src="assets/img/c4.jpg" alt="Ana" loading="lazy">
+  <img src="assets/img/c4.jpg" alt="Ana">
   <strong>Lara Estrela</strong>
   <p>"As peças chegaram embaladas com muito carinho. Amei!"</p>
 </div>
 <div class="card comment">
-  <img src="assets/img/c5.jpg" alt="Ana" loading="lazy">
+  <img src="assets/img/c5.jpg" alt="Ana">
   <strong>Firmino Silva</strong>
   <p>"Entrega rápida e produto exatamente como descrito."</p>
 </div>
 <div class="card comment">
-  <img src="assets/img/c6.jpg" alt="Ana" loading="lazy">
+  <img src="assets/img/c6.jpg" alt="Ana">
   <strong>Meal Medeiros</strong>
   <p>"Experiência incrível, recomendo para todos meus amigos."</p>
 </div>
 <div class="card comment">
-  <img src="assets/img/c7.jpg" alt="Ana" loading="lazy">
+  <img src="assets/img/c7.jpg" alt="Ana">
   <strong>Li Mei (李美)</strong>
   <p>"A energia das consultas é única — valeu cada segundo."</p>
 </div>
 <div class="card comment">
-  <img src="assets/img/c8.jpg" alt="Ana" loading="lazy">
+  <img src="assets/img/c8.jpg" alt="Ana">
   <strong>Samuel Guimarães</strong>
   <p>"Gostei muito, já virei cliente fiel da loja."</p>
 </div>
@@ -1817,7 +1732,7 @@ a {
         if(!txt){ alert('Escreva seu comentário'); return; }
         const newDiv = document.createElement('div');
         newDiv.className = 'comment';
-        newDiv.innerHTML = '<img src="assets/img/you.jpg" alt="Você" loading="lazy"><strong>Você</strong><p class="muted">'+escapeHtml(txt)+'</p>';
+        newDiv.innerHTML = '<img src="assets/img/you.jpg" alt="Você"><strong>Você</strong><p class="muted">'+escapeHtml(txt)+'</p>';
         const grids = document.querySelectorAll('.comments-grid');
         if(grids && grids.length>1){
           grids[1].insertBefore(newDiv, grids[1].firstChild);
@@ -1946,7 +1861,9 @@ a {
     /* ========== End of script ========== */
   </script>
 
-  <audio id="bg-audio" preload="none" style="display:none"></audio>
+  <audio loop>
+  <source src="assets/musica1.mp3" type="audio/mpeg">
+</audio>
 
 </body>
 </html>
