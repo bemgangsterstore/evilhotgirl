@@ -67,6 +67,40 @@
   .category-grid {
     grid-template-columns: 1fr !important;
   }
+@media (max-width: 768px) {
+  #bg-video { display: none; }
+  body {
+    background: url('bg-mobile.jpg') no-repeat center center/cover;
+  }
+}
+@media (max-width: 768px) {
+  .card, .comment, .cat-card, .product {
+    animation: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}
+@media (max-width: 768px) {
+  .products-grid img,
+  .comments-grid img {
+    width: 100px !important;
+    height: auto !important;
+  }
+}
+@media (max-width: 768px) {
+  #bg-video {
+    display: none;
+  }
+  body {
+    background: url("bg-mobile.jpg") no-repeat center center/cover;
+  }
+}
+@media (max-width: 768px) {
+  .neon-pulse, .btn-neon-strong, #play-pause {
+    animation: none;
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #00ffff;
+  }
+}
 
   /* Player simplificado */
   .player-corner {
