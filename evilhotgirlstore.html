@@ -42,6 +42,41 @@
       --glass: rgba(255,255,255,0.03);
       --text: #e8f6ff;
     }
+    /* 🚀 Ajustes Mobile Performance */
+@media (max-width: 768px) {
+  /* Reduzir sombras */
+  .card, .product, .comment, .cat-card {
+    box-shadow: none !important;
+    animation: none !important;
+  }
+
+  /* Imagens menores */
+  .product img {
+    height: 140px !important;
+  }
+
+  /* Texto centralizado e menor */
+  h2, h3, p {
+    font-size: 14px !important;
+    text-align: center;
+  }
+
+  /* Grid em 1 coluna */
+  .products-grid,
+  .comments-grid,
+  .category-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Player simplificado */
+  .player-corner {
+    position: static;
+    margin: 10px auto;
+    box-shadow: none !important;
+    background: rgba(0,0,0,0.6);
+  }
+}
+
 #card-ask {
   max-width: 600px;  /* reduz a largura */
   min-height: auto;  /* remove altura fixa */
