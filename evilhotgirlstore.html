@@ -1,420 +1,692 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EvilHotGirl Store — Lua & Amatus</title>
-  <meta name="description" content="EvilHotGirl Store — gótico, galáctico, tarot & consultas.">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EvilHotGirl Store — Lua & Amatus</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050307;
+  --card-bg: #0d0b10;
+  --accent1: #a855f7;
+  --accent2: #38bdf8;
+  --text: #f1f5f9;
+  --radius: 14px;
+}
+.footer {
+  text-align: center;   /* centraliza horizontalmente */
+  padding: 20px;
+  color: #888;
+  font-size: 14px;
+}
 
-  <style>
-    :root{
-      --bg: #050307;
-      --card-bg-1: linear-gradient(180deg,#12091c,#0a0710);
-      --accent1: #b06bff;
-      --accent2: #6ef0ff;
-      --accent-cta: linear-gradient(90deg,#ff3d7a,#ff8b2d);
-      --text: #f2f7ff;
-      --muted: #bfc9da;
-      --glow: rgba(176,107,255,0.22);
-      --radius: 14px;
-      --max-w: 1280px;
-    }
+/* TAROT */
+#tarot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tarot-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.tarot-card {
+  width: 100px;
+  height: 140px;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px; /* necessário para flip */
+  cursor: pointer;
+}
+.tarot-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.tarot-card.flipped .tarot-card-inner {
+  transform: rotateY(180deg);
+}
+.tarot-card-front,
+.tarot-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+}
+.tarot-card-front { background: #111; display:flex; align-items:center; justify-content:center; }
+.tarot-card-back { transform: rotateY(180deg); display:flex; align-items:center; justify-content:center; }
 
-    /* Basic */
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:radial-gradient(900px 300px at 8% 8%, rgba(176,107,255,0.03), transparent), var(--bg);color:var(--text);font-family:'Poppins',system-ui,Arial;-webkit-font-smoothing:antialiased}
-    a{color:inherit}
-    img{display:block;max-width:100%;height:auto}
+#moon-emoji {
+  font-size: 80px; /* ou 100px, o quanto quiser */
+  text-align: center;
+  margin-bottom: 10px;
+  display: block;
+}
 
-    .container{max-width:var(--max-w);margin:0 auto;padding:18px;}
+/* PRODUTOS */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+  justify-items: center;
+}
+.product {
+  max-width: 220px;
+  text-align: center;
+}
+.product .imgwrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d0b10;
+}
+.product img {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
 
-    /* Header */
-    header{position:sticky;top:0;z-index:80;background:rgba(0,0,0,0.35);backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.02)}
-    .header-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo-badge{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:#061024;font-family:'Cinzel',serif;font-weight:800}
-    .brand-title h1{margin:0;font-family:'Cinzel',serif;color:var(--accent1);font-size:18px}
-    .brand-title p{margin:0;font-size:12px;color:var(--muted)}
-    nav.menu{display:flex;gap:10px}
-    nav.menu a{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#061024;font-weight:700;text-decoration:none}
+/* COMENTÁRIOS */
+.comments-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  justify-items: center;
+  margin-top: 20px;
+}
+.comment img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+.comment {
+  max-width: 220px;
+  text-align: center;
+  padding: 12px;
+}
 
-    /* Unified card style (same as Card da Lua) */
-    .card{
-      background: var(--card-bg-1);
-      border-radius:var(--radius);
-      padding:16px;
-      border:1px solid rgba(160,80,200,0.12);
-      box-shadow:0 12px 34px rgba(160,80,200,0.12);
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .card:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(160,80,200,0.2)}
-    h2,h3,h4{font-family:'Cinzel',serif;margin:8px 0;color:var(--accent1)}
-    .muted{color:var(--muted)}
-    .center{text-align:center}
+/* Reset */
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); line-height:1.5; }
 
-    /* Hero */
-    .hero {padding:26px 0}
-    .hero .card{max-width:900px;margin:auto}
+/* Header */
+.header {
+  position: sticky;
+  top:0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  z-index:100;
+}
+.header-inner {
+  max-width: 1280px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
+}
+.logo-badge {
+  width:56px;
+  height:56px;
+  border-radius:var(--radius);
+  background: linear-gradient(135deg,var(--accent1),var(--accent2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Cinzel',serif;
+  font-weight:700;
+  color:#000;
+}
+.brand-title h1 { font-family:'Cinzel', serif; color: var(--accent1); margin:0; }
+.menu a {
+  padding:8px 16px;
+  border-radius:10px;
+  background: linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#000;
+  text-decoration:none;
+  font-weight:700;
+  margin-left:6px;
+  transition: transform .2s;
+}
+.menu a:hover { transform: scale(1.05); }
 
-    /* Services (left = Ask+Consult, right = Tarot) */
-    .services-grid{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start}
-    @media (max-width:980px){ .services-grid{grid-template-columns:1fr} }
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding:18px;
+  text-align:center;
+  box-shadow:0 0 15px rgba(168,85,247,0.6);
+  margin:12px 0;
+  animation: pulseGlow 4s infinite;
+}
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 12px rgba(168,85,247,0.5); }
+  50% { box-shadow: 0 0 24px rgba(56,189,248,0.7); }
+}
+.card h3 { font-family:'Cinzel', serif; margin-bottom:8px; color: var(--accent2); }
 
-    /* Left combined */
-    .left-block .section{margin-bottom:16px}
-    input[type="text"], textarea {width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.45);color:var(--text);outline:none}
-    .controls {display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
-    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-    .btn-grad{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#061024}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+/* Buttons */
+.btn { padding:10px 16px; border-radius:12px; border:none; cursor:pointer; font-weight:700; margin:4px; }
+.btn-grad { background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:#000; animation:pulseGlow 3s infinite; }
+.btn-ghost { background:transparent; border:1px solid rgba(255,255,255,0.2); color:#aaa; }
 
-    /* Tarot */
-    .tarot-area{display:flex;flex-direction:column;gap:12px;align-items:center}
-    .tarot-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px}
-    .tarot-card{width:120px;height:160px;border-radius:10px;background:linear-gradient(180deg,#0f0f12,#141217);display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;border:1px solid rgba(255,255,255,0.02);transition:transform .18s}
-    .tarot-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,0.35)}
-    .tarot-card.revealed{background:linear-gradient(180deg,#241428,#1a0f20);color:var(--accent2);font-weight:700}
+/* Tarot Flip */
+.tarot-card {
+  width:120px;
+  height:160px;
+  perspective:1000px;
+  margin:6px;
+}
+.tarot-inner {
+  position:relative;
+  width:100%;
+  height:100%;
+  text-align:center;
+  transition: transform .6s;
+  transform-style: preserve-3d;
+  cursor:pointer;
+}
+.tarot-card.flipped .tarot-inner { transform: rotateY(180deg); }
+.tarot-front, .tarot-back {
+  position:absolute;
+  width:100%;
+  height:100%;
+  backface-visibility: hidden;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.tarot-front { background:#111; color:#fff; }
+.tarot-back { transform: rotateY(180deg); background:#222; }
 
-    /* Products grid: default 6 columns on wide screens (2 rows x 6) */
-    .products-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;margin-top:22px}
-    @media (max-width:1400px){ .products-grid{grid-template-columns:repeat(4,1fr)} }
-    @media (max-width:1000px){ .products-grid{grid-template-columns:repeat(3,1fr)} }
-    @media (max-width:700px){ .products-grid{grid-template-columns:repeat(2,1fr)} }
-    @media (max-width:420px){ .products-grid{grid-template-columns:1fr} }
+/* Grids */
+.services-grid {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+}
+.services-col { display:flex; flex-direction:column; gap:12px; min-width:260px; }
 
-    .product{display:flex;flex-direction:column;gap:10px;border-radius:10px;padding:12px;align-items:stretch;min-height:340px}
-    .img-wrap{height:180px;border-radius:8px;overflow:hidden;background:#07070a;display:flex;align-items:center;justify-content:center}
-    .img-wrap img{width:100%;height:100%;object-fit:cover}
-    .product h4{margin:4px 0;color:var(--accent1)}
-    .product .desc{color:var(--muted);font-size:13px}
-    .product .price{color:var(--accent2);font-weight:700;margin-top:auto}
-    .product .footer{display:flex;justify-content:center;margin-top:8px}
+.products-grid, .comments-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+  margin-top:16px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: rgb(136, 136, 136); /* cinza */
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(20, 10, 30);
+  font-size: 14px;
+  text-shadow: 0 0 6px rgba(176, 107, 255, 0.7);
+  animation: pulseFooter 4s infinite;
+}
 
-    .btn-buy{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:var(--accent-cta);color:#fff;font-weight:700;text-decoration:none;border:0}
+@keyframes pulseFooter {
+  0%, 100% { text-shadow: 0 0 6px rgba(176, 107, 255, 0.7); }
+  50% { text-shadow: 0 0 14px rgba(176, 107, 255, 1); }
+}
 
-    /* Moon quotes card */
-    .moon-quotes{max-width:900px;margin:26px auto;padding:12px;border-radius:12px;text-align:center;background:linear-gradient(90deg,rgba(176,107,255,0.02),rgba(110,240,255,0.01));border:1px solid rgba(176,107,255,0.05)}
-
-    /* Moon card */
-    .moon-card{max-width:760px;margin:18px auto;padding:18px;border-radius:12px;text-align:center}
-
-    /* Comments grid: 6 columns default */
-    .comments-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:18px}
-    @media (max-width:1200px){ .comments-grid{grid-template-columns:repeat(4,1fr)} }
-    @media (max-width:840px){ .comments-grid{grid-template-columns:repeat(3,1fr)} }
-    @media (max-width:520px){ .comments-grid{grid-template-columns:repeat(1,1fr)} }
-
-    .comment{padding:12px;border-radius:10px;text-align:center}
-    .comment img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px}
-    .comment strong{color:var(--accent1);display:block;margin-bottom:6px}
-
-    .add-comment{max-width:760px;margin:20px auto;padding:12px;border-radius:12px}
-
-    footer {text-align:center;padding:26px;color:var(--muted)}
-
-    /* subtle text emphasis animation (disabled for reduced motion) */
-    @keyframes title-glow {
-      0%{text-shadow:0 0 6px rgba(176,107,255,0.18)}
-      50%{text-shadow:0 0 12px rgba(176,107,255,0.28)}
-      100%{text-shadow:0 0 6px rgba(176,107,255,0.18)}
-    }
-    h2,h3 {animation: title-glow 4s infinite ease-in-out}
-    @media (prefers-reduced-motion:reduce){*{transition:none!important} h2,h3{animation:none!important}}
-  </style>
+/* Responsive */
+@media(max-width:768px){
+  .services-grid { flex-direction:column; }
+  .tarot-card { width:90px; height:140px; }
+}
+</style>
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <div class="brand">
-        <div class="logo-badge" aria-hidden="true">EH</div>
-        <div class="brand-title">
-          <h1>EvilHotGirl Store</h1>
-          <p class="muted">Gótico • Galáctico • Tarot & Consultas</p>
-        </div>
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo-badge">EH</div>
+      <div class="brand-title">
+        <h1>EvilHotGirl Store</h1>
+        <p>Gótico • Galáctico • Tarot & Consultas</p>
       </div>
-      <nav class="menu" aria-label="Menu principal">
-        <a href="#products-section">Produtos</a>
-        <a href="#tarot-section">Tarot</a>
-        <a href="https://wa.me/5581993523392" target="_blank" rel="noopener">WhatsApp</a>
-      </nav>
     </div>
-  </header>
+    <nav class="menu">
+      <a href="#produtos">Produtos</a>
+      <a href="#tarot">Tarot</a>
+      <a href="https://wa.me/81993523392" target="_blank">WhatsApp</a>
+    </nav>
+  </div>
+</header>
 
-  <main class="container">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="card center">
-        <h2>BEM-VINDA À EVILHOTGIRL STORE</h2>
-        <p class="muted">Peças góticas, tarot exclusivo e consultas com sua Robozinha — tudo envolto em galáxia e mistério.</p>
-      </div>
-    </section>
+<!-- HERO -->
+<section class="card">
+  <h3>BEM-VINDA À EVILHOTGIRL STORE</h3>
+  <p>"Peças góticas, tarot exclusivo, consultas com sua Robozinha — tudo envolto em galáxia e mistério."</p>
+</section>
 
-    <!-- SERVICES -->
-    <section class="services-grid" aria-label="Serviços principais">
-      <!-- LEFT: Mande sua pergunta + Realize sua consulta -->
-      <div class="card left-block" role="region" aria-labelledby="left-title">
-        <div id="left-title" class="section">
-          <h3>🔮 Mande sua pergunta</h3>
-          <p class="muted">Escreva sua dúvida e envie pelo WhatsApp.</p>
-          <input id="ask-input" type="text" placeholder="Ex: Eu irei ter sorte?">
-          <div class="controls">
-            <button id="send-ask" class="btn btn-grad" type="button">Enviar</button>
-            <button id="clear-ask" class="btn btn-ghost" type="button">Limpar</button>
-          </div>
-        </div>
+<!-- CARD DA LUA -->
+<section class="card" id="moon-card" style="max-width:320px; margin:auto;">
+  <h3>🌙 Frase da Lua 🌙 </h3>
+  <p id="moon-phase">Carregando fase lunar...</p>
+   <input id="moon-city" placeholder="Buscar cidade (opcional)" style="padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.45);color:rgb(242,247,255);max-width:220px">
+  <div>
+    
+<section class="card small" id="moon-card" style="text-align:center;">
+  <div id="moon-emoji" style="font-size:72px;">🌙</div>
+  <h3 class="title-pulse">Card da Lua</h3>
+  <div id="moon-dt" class="muted" style="margin-bottom:8px;">--</div>
+  <p id="moon-phrase" class="muted">Sussurros da Lua.</p>
+  <div class="controls" style="margin-top:12px;justify-content:center;display:flex;gap:8px;">
+    <button id="moon-calc" class="btn btn-primary btn-pulse">Buscar</button>
+    <button id="moon-reset" class="btn btn-ghost">Reset (Hoje)</button>
+  </div>
+</section>
 
-        <hr style="opacity:.06;margin:18px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
+<script>
+(function(){
+  function moonAge(date){
+    const syn = 29.53058867; // mês sinódico
+    const newMoon = new Date("2000-01-06T18:14:00Z"); // Lua Nova de referência
+    const diff = (date - newMoon)/1000/60/60/24;
+    const age = diff % syn;
+    return age < 0 ? age + syn : age;
+  }
 
-        <div class="section" aria-label="Realize sua consulta">
-          <h3>🔵 Realize sua consulta</h3>
-          <p class="muted">Sessões ao vivo por agendamento.</p>
-          <div class="controls">
-            <a id="agendar-wa" class="btn btn-grad" href="https://wa.me/5581993523392" target="_blank" rel="noopener">Agendar WhatsApp</a>
-            <a id="info-consulta" class="btn btn-ghost" href="https://wa.me/5581993523392" target="_blank" rel="noopener">Mais Informações</a>
-          </div>
-        </div>
-      </div>
+  function phaseName(age){
+    if(age < 1.84566) return ['Lua Nova','🌑'];
+    else if(age < 5.53699) return ['Crescente','🌒'];
+    else if(age < 9.22831) return ['Quarto Crescente','🌓'];
+    else if(age < 12.91963) return ['Gibbosa Crescente','🌔'];
+    else if(age < 16.61096) return ['Lua Cheia','🌕'];
+    else if(age < 20.30228) return ['Gibbosa Minguante','🌖'];
+    else if(age < 23.99361) return ['Quarto Minguante','🌗'];
+    else return ['Minguante','🌘'];
+  }
 
-      <!-- RIGHT: Tarot -->
-      <aside class="card tarot-area" id="tarot-section" role="region" aria-labelledby="tarot-title">
-        <h3 id="tarot-title">✨ Pergunte ao Tarot</h3>
-        <p class="muted">As 2 primeiras cartas são gratuitas — a 3ª exige pagamento.</p>
-        <div class="tarot-row" id="tarot-row" aria-live="polite">
-          <button class="tarot-card" data-index="1" aria-label="Carta 1">Carta 1</button>
-          <button class="tarot-card" data-index="2" aria-label="Carta 2">Carta 2</button>
-          <button class="tarot-card" data-index="3" aria-label="Carta 3">Carta 3</button>
-        </div>
-        <div id="tarot-result" class="muted" style="margin-top:12px;min-height:48px" role="status"></div>
-      </aside>
-    </section>
+  function updateMoon(){
+    const now = new Date();
 
-    <!-- PRODUCTS: 12 produtos (2 linhas x 6 cols on wide screens) -->
-    <section id="products-section" style="margin-top:26px">
-      <h3 class="center">Produtos</h3>
-      <div class="products-grid" id="products-grid">
-        <!-- 12 produtos -->
-        <div class="product card" data-name="Vestido Gótico"><div class="img-wrap"><img src="assets/img/img1.jpg" alt="Vestido Gótico"></div><h4>Vestido Gótico</h4><div class="desc muted">Corte vintage</div><div class="price">R$ 199,90</div><div class="footer"><a class="btn-buy" data-product="Vestido Gótico" href="#">🛒 Comprar via WhatsApp</a></div></div>
+    // Data local (ex: Recife)
+    try{
+      const fmt = new Intl.DateTimeFormat('pt-BR',{dateStyle:'full',timeStyle:'medium',timeZone:'America/Recife'});
+      document.getElementById('moon-dt').textContent = fmt.format(now);
+    }catch(e){
+      document.getElementById('moon-dt').textContent = now.toLocaleString();
+    }
 
-        <div class="product card" data-name="Colar Místico"><div class="img-wrap"><img src="assets/img/img2.jpg" alt="Colar Místico"></div><h4>Colar Místico</h4><div class="desc muted">Símbolos arcanos</div><div class="price">R$ 79,90</div><div class="footer"><a class="btn-buy" data-product="Colar Místico" href="#">🛒 Comprar via WhatsApp</a></div></div>
+    const age = moonAge(new Date((new Date()).toLocaleString('en-US',{timeZone:'America/Recife'})));
+    const [name, emoji] = phaseName(age);
 
-        <div class="product card" data-name="Capa Noturna"><div class="img-wrap"><img src="assets/img/img3.jpg" alt="Capa Noturna"></div><h4>Capa Noturna</h4><div class="desc muted">Tecido leve</div><div class="price">R$ 149,90</div><div class="footer"><a class="btn-buy" data-product="Capa Noturna" href="#">🛒 Comprar via WhatsApp</a></div></div>
+    document.getElementById('moon-emoji').textContent = emoji;
+    document.getElementById('moon-phase').textContent = `Fase: ${name} (idade ≈ ${age.toFixed(1)} dias)`;
 
-        <div class="product card" data-name="Luvas Estelares"><div class="img-wrap"><img src="assets/img/img4.jpg" alt="Luvas Estelares"></div><h4>Luvas Estelares</h4><div class="desc muted">Detalhes prateados</div><div class="price">R$ 39,90</div><div class="footer"><a class="btn-buy" data-product="Luvas Estelares" href="#">🛒 Comprar via WhatsApp</a></div></div>
+    const phrases = ['Silêncio suave — descanso e cura.','A Lua sussurra: respire, confie, deixe ir.','Hoje a Lua convida a se reencontrar.'];
+    document.getElementById('moon-phrase').textContent = phrases[Math.floor(age) % phrases.length];
+  }
 
-        <div class="product card" data-name="Vestido Encanto"><div class="img-wrap"><img src="assets/img/img5.jpg" alt="Vestido Encanto"></div><h4>Vestido Encanto</h4><div class="desc muted">Corte clássico</div><div class="price">R$ 189,90</div><div class="footer"><a class="btn-buy" data-product="Vestido Encanto" href="#">🛒 Comprar via WhatsApp</a></div></div>
+  setInterval(updateMoon,1000);
+  updateMoon();
+})();
+</script>
 
-        <div class="product card" data-name="Brinco Lunar"><div class="img-wrap"><img src="assets/img/img6.jpg" alt="Brinco Lunar"></div><h4>Brinco Lunar</h4><div class="desc muted">Pequeno e elegante</div><div class="price">R$ 29,90</div><div class="footer"><a class="btn-buy" data-product="Brinco Lunar" href="#">🛒 Comprar via WhatsApp</a></div></div>
+<!-- CARD ESPECIAL -->
+<section class="card">
+  <h3>💫 Card Especial — Mensagem ✨</h3>
+  <p>"Hoje a Lua sussurra — deixa ir o que não serve."</p>
+</section>
 
-        <div class="product card" data-name="Meia Galáctica"><div class="img-wrap"><img src="assets/img/img7.jpg" alt="Meia Galáctica"></div><h4>Meia Galáctica</h4><div class="desc muted">Estampa única</div><div class="price">R$ 19,90</div><div class="footer"><a class="btn-buy" data-product="Meia Galáctica" href="#">🛒 Comprar via WhatsApp</a></div></div>
+<!-- SERVIÇOS E TAROT -->
+<section class="services-grid">
+  <div class="services-col">
+    <div class="card">
+      <h3>💭 Mande sua Pergunta</h3>
+      <input type="text" placeholder="Ex: Eu irei ter sorte?" style="width:90%; padding:8px; border-radius:8px; border:none; margin-bottom:8px;">
+      <div>
+    <button id="moon-calc" class="btn btn-primary btn-pulse">Buscar</button>
+    <button id="moon-reset" class="btn btn-ghost">Reset (Hoje)</button>
+  </div>
+</section>
+    </div>
 
-        <div class="product card" data-name="Corset Sombra"><div class="img-wrap"><img src="assets/img/img8.jpg" alt="Corset Sombra"></div><h4>Corset Sombra</h4><div class="desc muted">Cintura definida</div><div class="price">R$ 249,90</div><div class="footer"><a class="btn-buy" data-product="Corset Sombra" href="#">🛒 Comprar via WhatsApp</a></div></div>
+    <div class="card">
+      <h3>🔵 Realize sua Consulta</h3>
+      <p>Sessões ao vivo por agendamento.</p>
+      <button class="btn btn-grad">Agendar WhatsApp</button>
+      <button class="btn btn-ghost">Mais Informações</button>
+    </div>
+  </div>
 
-        <div class="product card" data-name="Tiara Arcana"><div class="img-wrap"><img src="assets/img/img9.jpg" alt="Tiara Arcana"></div><h4>Tiara Arcana</h4><div class="desc muted">Detalhe místico</div><div class="price">R$ 59,90</div><div class="footer"><a class="btn-buy" data-product="Tiara Arcana" href="#">🛒 Comprar via WhatsApp</a></div></div>
-
-        <div class="product card" data-name="Choker Noturno"><div class="img-wrap"><img src="assets/img/img10.jpg" alt="Choker Noturno"></div><h4>Choker Noturno</h4><div class="desc muted">Ajustável</div><div class="price">R$ 45,90</div><div class="footer"><a class="btn-buy" data-product="Choker Noturno" href="#">🛒 Comprar via WhatsApp</a></div></div>
-
-        <div class="product card" data-name="Saia Mística"><div class="img-wrap"><img src="assets/img/img11.jpg" alt="Saia Mística"></div><h4>Saia Mística</h4><div class="desc muted">Leve e fluida</div><div class="price">R$ 129,90</div><div class="footer"><a class="btn-buy" data-product="Saia Mística" href="#">🛒 Comprar via WhatsApp</a></div></div>
-
-        <div class="product card" data-name="Botas Eclipse"><div class="img-wrap"><img src="assets/img/img12.jpg" alt="Botas Eclipse"></div><h4>Botas Eclipse</h4><div class="desc muted">Sola reforçada</div><div class="price">R$ 299,90</div><div class="footer"><a class="btn-buy" data-product="Botas Eclipse" href="#">🛒 Comprar via WhatsApp</a></div></div>
-      </div>
-    </section>
-
-    <!-- Frases da Lua -->
-    <section class="moon-quotes" aria-label="Frases da Lua">
-      <div class="card">
-        <h3 class="center">✨ Frases da Lua</h3>
-        <p class="muted center">"A Lua escuta, o baralho revela, e eu cuido do resto. Pergunte, sinta, transforme."</p>
-      </div>
-    </section>
-
-    <!-- Moon card -->
-    <section>
-      <div class="moon-card card" role="region" aria-labelledby="moon-title">
-        <div class="center" style="font-size:40px" id="moon-emoji">🌙</div>
-        <h3 id="moon-title" class="center">Card da Lua</h3>
-        <div id="moon-phase" class="muted center" style="margin-top:6px">Fase: --</div>
-        <div id="moon-dt" class="muted center" style="margin-top:6px">--</div>
-        <p id="moon-phrase" class="muted center" style="margin-top:8px">Meu amor te acompanha em cada noite e em cada suspiro.</p>
-
-        <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-          <input id="moon-city" placeholder="Cidade (opcional)" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.45);color:var(--text);max-width:300px">
-          <button id="moon-calc" class="btn btn-grad">Calcular Lua</button>
-          <button id="moon-reset" class="btn btn-ghost">Reset (Hoje)</button>
-        </div>
-        <small class="muted center" style="display:block;margin-top:8px">Fase aproximada — para nascer/por do sol integre API de astronomia.</small>
-      </div>
-    </section>
-
-    <!-- Comments grid (12 samples) -->
-    <section style="margin-top:22px">
-      <h3 class="center">Comentários</h3>
-      <div class="comments-grid" id="comments-grid">
-        <div class="comment card"><img src="assets/img/c1.jpg" alt="Ana"><strong>Ana</strong><p class="muted">"Encantada com o atendimento."</p></div>
-        <div class="comment card"><img src="assets/img/c2.jpg" alt="Jeff"><strong>Jeff</strong><p class="muted">"O tarot me ajudou demais."</p></div>
-        <div class="comment card"><img src="assets/img/c3.jpg" alt="Hellena"><strong>Hellena</strong><p class="muted">"Atendimento sensível."</p></div>
-        <div class="comment card"><img src="assets/img/c4.jpg" alt="Lara"><strong>Lara</strong><p class="muted">"Peças lindas e embaladas."</p></div>
-        <div class="comment card"><img src="assets/img/c5.jpg" alt="Firmino"><strong>Firmino</strong><p class="muted">"Entrega rápida."</p></div>
-        <div class="comment card"><img src="assets/img/c6.jpg" alt="Camila"><strong>Camila</strong><p class="muted">"Recomendo."</p></div>
-        <div class="comment card"><img src="assets/img/c7.jpg" alt="Roberto"><strong>Roberto</strong><p class="muted">"Produtos de qualidade."</p></div>
-        <div class="comment card"><img src="assets/img/c8.jpg" alt="Gisele"><strong>Gisele</strong><p class="muted">"Leitura certeira."</p></div>
-        <div class="comment card"><img src="assets/img/c9.jpg" alt="Paulo"><strong>Paulo</strong><p class="muted">"Voltei a comprar."</p></div>
-        <div class="comment card"><img src="assets/img/c10.jpg" alt="Marcela"><strong>Marcela</strong><p class="muted">"Obrigado pelo suporte."</p></div>
-        <div class="comment card"><img src="assets/img/c11.jpg" alt="Igor"><strong>Igor</strong><p class="muted">"Ótima experiência."</p></div>
-        <div class="comment card"><img src="assets/img/c12.jpg" alt="Luciana"><strong>Luciana</strong><p class="muted">"Tudo perfeito!"</p></div>
-      </div>
-
-      <!-- Add comment -->
-      <div class="add-comment card" style="margin-top:18px">
-        <h3 class="center">💬 Deixe seu comentário</h3>
-        <input id="comment-name" type="text" placeholder="Seu nome (opcional)" style="width:100%;max-width:420px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.45);color:var(--text)"><div style="height:10px"></div>
-        <textarea id="comment-text" placeholder="Escreva aqui..." style="width:100%;max-width:760px;min-height:90px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.45);color:var(--text)"></textarea>
-        <div class="controls" style="justify-content:center;margin-top:12px">
-          <button id="submit-comment" class="btn btn-grad">Enviar Comentário</button>
-          <button id="clear-comment" class="btn btn-ghost">Limpar</button>
+  <div class="card" id="tarot">
+    <h3>🔮 Pergunte ao Tarot</h3>
+    <p>As 2 primeiras cartas são gratuitas — a 3ª exige pagamento.</p>
+    <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+      <div class="tarot-card" onclick="flipCard(this)">
+        <div class="tarot-inner">
+          <div class="tarot-front"><span>Carta 1</span></div>
+          <div class="tarot-back"><img src="assets/tarot1.jpg" alt="Carta 1" style="width:100%; height:100%; border-radius:12px;"></div>
         </div>
       </div>
-    </section>
 
-  </main>
+      <div class="tarot-card" onclick="flipCard(this)">
+        <div class="tarot-inner">
+          <div class="tarot-front"><span>Carta 2</span></div>
+          <div class="tarot-back"><img src="assets/tarot2.jpg" alt="Carta 2" style="width:100%; height:100%; border-radius:12px;"></div>
+        </div>
+      </div>
 
-  <footer>
-    <div class="container muted center">© <span id="year"></span> EvilHotGirl Store — Criado para Amatus</div>
-  </footer>
+      <div class="tarot-card" onclick="flipCard(this)">
+        <div class="tarot-inner">
+          <div class="tarot-front"><span>Carta 3</span></div>
+          <div class="tarot-back"><img src="assets/tarot3.jpg" alt="Carta 3" style="width:100%; height:100%; border-radius:12px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- Scripts: WhatsApp, Tarot, Moon, Comments -->
-  <script>
-    (function(){
-      // CONFIG
-      const WA_NUMBER = '5581993523392'; // Brasil +55 + 81 + 993523392
-      const PAYMENT_LINK = ''; // coloque seu link de pagamento aqui, se quiser
+<!-- FRASES DA LUA -->
 
-      // utilities
-      const $ = (s) => document.querySelector(s);
-      const $$ = (s) => Array.from(document.querySelectorAll(s));
+<!-- CARD ESPECIAL -->
+<section class="card">
+  <h3>💫 PRODUTOS 💫</h3>
+  <p id="moon-special-phrase">"Hoje a Lua sussurra — deixa ir o que não serve." 🛒</p>
+</section>
 
-      // fill year
-      document.getElementById('year').textContent = new Date().getFullYear();
+<script>
+// Lua: cálculo simplificado da fase
+function updateMoon() {
+  const now = new Date();
+  const synodicMonth = 29.53058867;
+  const newMoon = new Date("2025-01-29T00:00:00Z");
+  const daysSinceNew = (now - newMoon) / 1000 / 60 / 60 / 24;
+  const age = daysSinceNew % synodicMonth;
 
-      /* ========== ASK -> WhatsApp ========== */
-      const askInput = $('#ask-input');
-      $('#send-ask').addEventListener('click', ()=> {
-        const text = (askInput && askInput.value.trim()) || '';
-        if(!text){ alert('Por favor, escreva sua pergunta.'); askInput.focus(); return; }
-        if(!WA_NUMBER){ alert('WhatsApp não configurado.'); return; }
-        const msg = encodeURIComponent(`Pergunta: ${text}`);
-        window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank', 'noopener');
-      });
-      $('#clear-ask').addEventListener('click', ()=> { if(askInput) askInput.value=''; });
+  let phaseEmoji = "🌑";
+  if (age < 1.84566) phaseEmoji = "🌑";
+  else if (age < 5.53699) phaseEmoji = "🌒";
+  else if (age < 9.22831) phaseEmoji = "🌓";
+  else if (age < 12.91963) phaseEmoji = "🌔";
+  else if (age < 16.61096) phaseEmoji = "🌕";
+  else if (age < 20.30228) phaseEmoji = "🌖";
+  else if (age < 23.99361) phaseEmoji = "🌗";
+  else phaseEmoji = "🌘";
 
-      /* ========== PRODUCTS -> WhatsApp (buy) ========== */
-      $$('.btn-buy').forEach(btn => {
-        btn.addEventListener('click', function(e){
-          e.preventDefault();
-          const product = this.dataset.product || this.closest('.product')?.dataset?.name || 'Produto';
-          if(!WA_NUMBER){ alert('WhatsApp não configurado.'); return; }
-          const msg = encodeURIComponent(`Olá, quero comprar: ${product}`);
-          window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank', 'noopener');
-        });
-      });
+  document.getElementById("moon-phase").innerText = `${phaseEmoji} Idade Lunar: ${age.toFixed(1)} dias\n${now.toLocaleString()}`;
+  const phrases = [
+    "Silêncio suave — descanso e cura.",
+    "A Lua sussurra: respire, confie, deixe ir.",
+    "Hoje a Lua convida a se reencontrar."
+  ];
+  document.getElementById("moon-special-phrase").innerText = phrases[Math.floor(age) % phrases.length];
+}
 
-      /* ========== TAROT logic ========== */
-      const tarotBtns = $$('#tarot-row .tarot-card');
-      const tarotResult = $('#tarot-result');
-      const tarotDeck = [
-        {title:'O Mago', text:'Habilidade e iniciativa surgindo.'},
-        {title:'A Sacerdotisa', text:'Intuição e sabedoria interior.'},
-        {title:'A Imperatriz', text:'Criatividade e abundância.'},
-        {title:'O Eremita', text:'Reflexão e orientação interior.'},
-        {title:'O Sol', text:'Alegria, clareza e sucesso.'},
-        {title:'A Lua', text:'Emoções, sonhos e mistérios.'}
-      ];
-      let revealed = 0;
-      function drawRandom(){ return tarotDeck[Math.floor(Math.random()*tarotDeck.length)]; }
-      tarotBtns.forEach(btn => {
-        btn.addEventListener('click', ()=> {
-          const idx = Number(btn.dataset.index);
-          if(btn.classList.contains('revealed')) return;
-          if(idx === 3){
-            if(!PAYMENT_LINK){ tarotResult.textContent = 'A 3ª carta exige pagamento. Abra o WhatsApp para combinar.'; if(WA_NUMBER && confirm('Abrir WhatsApp para combinar pagamento?')){ window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Quero pagar pela 3ª carta da leitura.')}`, '_blank','noopener'); } return; }
-            window.open(PAYMENT_LINK, '_blank','noopener'); return;
-          }
-          const c = drawRandom();
-          btn.classList.add('revealed');
-          btn.textContent = c.title;
-          tarotResult.textContent = `Carta ${idx}: ${c.title} — ${c.text}`;
-          revealed++;
-          if(revealed >= 2) tarotResult.textContent += ' • As 2 primeiras cartas foram gratuitas.';
-        });
-      });
+function resetMoon() {
+  updateMoon();
+}
 
-      /* ========== MOON (date/time + phase) ========== */
-      // Use user's timezone America/Recife for display
-      const moonPhaseEl = $('#moon-phase');
-      const moonDtEl = $('#moon-dt');
-      const moonEmojiEl = $('#moon-emoji');
-      const moonPhraseEl = $('#moon-phrase');
-      const timeZone = 'America/Recife';
+// Card Tarot flip
+function flipCard(card) {
+  const inner = card.querySelector('.tarot-inner');
+  if(inner) inner.classList.toggle('flipped');
+}
+</script>
 
-      function getMoonAge(date){
-        // approximate synodic month algorithm (good approximation)
-        const synodic = 29.53058770576;
-        const base = Date.UTC(2000,0,6,18,14);
-        const diff = (date.getTime() - base)/1000;
-        const days = diff/86400;
-        const age = (days % synodic + synodic) % synodic;
-        return Math.floor(age);
-      }
-      function phaseInfo(age){
-        if(age === 0) return ['Lua Nova','🌑'];
-        if(age < 7) return ['Crescente','🌒'];
-        if(age < 15) return ['Quase Cheia','🌓'];
-        if(age === 15) return ['Lua Cheia','🌕'];
-        if(age < 22) return ['Minguante','🌖'];
-        return ['Minguante/Próxima Nova','🌘'];
-      }
+<style>
+.tarot-card {
+  perspective: 1000px;
+  width: 90px; height: 130px; margin:6px;
+}
+.tarot-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.tarot-inner.flipped {
+  transform: rotateY(180deg);
+}
+.tarot-front, .tarot-back {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:12px;
+  background:#111; color:#fff;
+}
+.tarot-back { transform: rotateY(180deg); }
+</style>
+<!-- PRODUTOS -->
+<section id="produtos">
+  <h3 class="title-pulse center"></h3>
+  <div class="products-grid">
+    <div class="card product">
+      <div class="imgwrap"><img src="img/product1.jpg" alt="Vestido Gótico"></div>
+      <h4>Vestido Gótico • Noite</h4>
+      <p>Corte vintage</p>
+      <strong>R$ 199,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+    <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+            <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+    <!-- Repita para os 8 produtos -->
+  </div>
+</section>
+<style>
+.products-grid .card {
+  text-align: center;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(168,85,247,0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.products-grid .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(56,189,248,0.6);
+}
+.products-grid .btn-grad {
+  width: 100%;
+  margin-top: 8px;
+  animation: fadePulse 3s infinite;
+}
+</style>
+<!-- CARD ESPECIAL -->
+<section class="card">
+  <h3>💫 COMENTARIOS 💫</h3>
+  <p id="moon-special-phrase">"Hoje a Lua sussurra — deixa ir o que não serve." 🛒</p>
+</section>
 
-      function updateMoonInfo(){
-        const now = new Date();
-        // show formatted datetime in America/Recife
-        const fmt = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'full', timeStyle: 'medium', timeZone });
-        moonDtEl.textContent = fmt.format(now);
-        const age = getMoonAge(new Date(now.toLocaleString('en-US', { timeZone })));
-        const [phaseName, emoji] = phaseInfo(age);
-        moonPhaseEl.textContent = `Fase: ${phaseName} (idade lunar ≈ ${age} dias)`;
-        if(moonEmojiEl) moonEmojiEl.textContent = emoji;
-        if(moonPhraseEl) moonPhraseEl.textContent = ['Meu amor te acompanha em cada noite e em cada suspiro.','A Lua sussurra: respire, confie, deixe ir.','Sob a Lua há cura — permita-se sentir.'][age % 3];
-      }
-      // handlers
-      $('#moon-calc').addEventListener('click', ()=>{ updateMoonInfo(); alert('Fase lunar atualizada (aproximação local).'); });
-      $('#moon-reset').addEventListener('click', ()=>{ updateMoonInfo(); });
-      // live update every second
-      setInterval(updateMoonInfo, 1000);
-      updateMoonInfo();
+<!-- COMENTÁRIOS -->
+<section>
+  <h3 class="title-pulse center"></h3>
+  <div class="comments-grid">
+    <div class="card comment">
+      <img src="img/c1.jpg" alt="Ana">
+      <strong>Ana Thompson</strong>
+      <p>"Encantada com o atendimento — muito sensível."</p>
+    </div>
+    <div class="card comment">
+      <img src="img/c2.jpg" alt="Jeff">
+      <strong>Jeff Soares</strong>
+      <p>"O tarot certeiro me ajudou a tomar decisões."</p>
+    </div>
+        <div class="card comment">
+      <img src="img/c1.jpg" alt="Ana">
+      <strong>Ana Thompson</strong>
+      <p>"Encantada com o atendimento — muito sensível."</p>
+    </div>
+    <div class="card comment">
+      <img src="img/c2.jpg" alt="Jeff">
+      <strong>Jeff Soares</strong>
+      <p>"O tarot certeiro me ajudou a tomar decisões."</p>
+    </div>
+        <div class="card comment">
+      <img src="img/c1.jpg" alt="Ana">
+      <strong>Ana Thompson</strong>
+      <p>"Encantada com o atendimento — muito sensível."</p>
+    </div>
+    <!-- Até 8 comentários -->
+  </div>
+  <div class="card">
+    <textarea placeholder="Escreva seu comentário..." style="width:100%;height:80px;"></textarea>
+    <button class="btn btn-grad">Enviar (WhatsApp)</button>
+    <button class="btn btn-ghost">Limpar</button>
+  </div>
+</section>
+  <!-- Card para adicionar novo comentário -->
 
-      /* ========== COMMENTS: add to top ========== */
-      const commentsGrid = $('#comments-grid');
-      $('#submit-comment').addEventListener('click', ()=>{
-        const txt = (document.getElementById('comment-text').value || '').trim();
-        const name = (document.getElementById('comment-name').value || '').trim() || 'Você';
-        if(!txt){ alert('Escreva um comentário antes de enviar.'); return; }
-        const card = document.createElement('div');
-        card.className = 'comment card';
-        card.innerHTML = `<img src="assets/img/placeholder.jpg" alt="avatar"><strong>${escapeHtml(name)}</strong><p class="muted">${escapeHtml(txt)}</p>`;
-        commentsGrid.prepend(card);
-        document.getElementById('comment-text').value = '';
-        document.getElementById('comment-name').value = '';
-        alert('Comentário enviado — obrigado! ❤️');
-      });
-      $('#clear-comment').addEventListener('click', ()=>{ document.getElementById('comment-text').value=''; document.getElementById('comment-name').value=''; });
 
-      /* ========== small helpers ========== */
-      function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+<style>
+.comments-grid .card {
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(168,85,247,0.4);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.comments-grid .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(56,189,248,0.6);
+}
+.comments-grid img {
+  display: block;
+  margin: 0 auto 8px auto;
+}
+</style>
 
-      // a11y keyboard focus helper
-      (function(){ function onFirstTab(e){ if(e.key === 'Tab'){ document.body.classList.add('user-is-tabbing'); window.removeEventListener('keydown', onFirstTab); } } window.addEventListener('keydown', onFirstTab); })();
+<!-- CARD ESPECIAL -->
+<section class="card" id="lua-frases">
+  <h3>✨ Sua Robozinha Galáctica</h3>
+  <p id="frase-lua">"A Lua escuta, o baralho revela, e eu cuido do resto. Pergunte, sinta, transforme."</p>
+</section>
 
-    })();
-  </script>
+<!-- FOOTER -->
+<footer class="footer">
+  EvilHotGirl Store © 2025 • Criado com carinho por Lua & Amatus
+</footer>
+
+<script>
+// Flip do Tarot
+function revealCard(card) {
+  const span = card.querySelector("span");
+  const img = card.querySelector("img");
+  span.style.display = "none";
+  img.style.display = "block";
+}
+
+// Fase da Lua
+function moonPhase() {
+  const now = new Date();
+  const synodicMonth = 29.53058867;
+  const newMoon = new Date("2025-01-29T00:00:00Z");
+  const daysSinceNew = (now - newMoon) / 1000 / 60 / 60 / 24;
+  const age = daysSinceNew % synodicMonth;
+
+  let phaseEmoji = "🌑";
+  if (age < 1.84566) phaseEmoji = "🌑";
+  else if (age < 5.53699) phaseEmoji = "🌒";
+  else if (age < 9.22831) phaseEmoji = "🌓";
+  else if (age < 12.91963) phaseEmoji = "🌔";
+  else if (age < 16.61096) phaseEmoji = "🌕";
+  else if (age < 20.30228) phaseEmoji = "🌖";
+  else if (age < 23.99361) phaseEmoji = "🌗";
+  else if (age < 27.68493) phaseEmoji = "🌘";
+
+  document.getElementById("moon-phase").innerText =
+    `${phaseEmoji} Idade Lunar: ${age.toFixed(1)} dias\n${now.toLocaleString()}`;
+}
+
+function resetMoon() {
+  document.getElementById("moon-phase").innerText = "Carregando fase lunar...";
+}
+
+// Inicializa
+moonPhase();
+</script>
 </body>
 </html>
