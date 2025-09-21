@@ -1,1873 +1,781 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EvilHotGirl Store — Lua & Amatus</title>
-
-  <!-- GOOGLE FONTS -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!--
-    INDEX.HTML — EVILHOTGIRL STORE
-    - Versão entregue ao Amatus
-    - Botões Compra destacados
-    - Card "Mande sua pergunta" corrigido
-    - Tarot: 2 cartas grátis, 3ª carta => redirecionar para pagamento Mercado Pago
-    - Cards centralizados; últimos dois cards lado a lado
-    - Comentários (8), categorias clicáveis
-    - API lunar chave já pronta (substitua se desejar)
-    - Observação: substitua o link do Mercado Pago pelo seu link de cobrança
-  -->
-
-  <style>
-    /* =========================================================
-       EvilHotGirl — CSS completo e detalhado
-       Objetivo: gótico + galáctico, legível e fácil de alterar
-       ========================================================= */
-
-    /* ---------- :root / variáveis ---------- */
-    :root{
-      --bg-1: #050307;
-      --bg-2: #0b0a0f;
-      --muted: #b6d7ee;
-      --accent1: #b06bff;
-      --accent2: #6ef0ff;
-      --danger: #ff0066;
-      --gold: #ffcc00;
-      --card-radius: 14px;
-      --card-padding: 20px;
-      --max-width: 1180px;
-      --shadow-strong: 0 14px 40px rgba(0,0,0,0.6);
-      --glass: rgba(255,255,255,0.03);
-      --text: #e8f6ff;
-    }
-    /* 🚀 Ajustes Mobile Performance */
-@media (max-width: 768px) {
-  /* Reduzir sombras */
-  .card, .product, .comment, .cat-card {
-    box-shadow: none !important;
-    animation: none !important;
-  }
-
-  /* Imagens menores */
-  .product img {
-    height: 140px !important;
-  }
-
-  /* Texto centralizado e menor */
-  h2, h3, p {
-    font-size: 14px !important;
-    text-align: center;
-  }
-
-  /* Grid em 1 coluna */
-  .products-grid,
-  .comments-grid,
-  .category-grid {
-    grid-template-columns: 1fr !important;
-  }
-@media (max-width: 768px) {
-  #bg-video { display: none; }
-  body {
-    background: url('bg-mobile.jpg') no-repeat center center/cover;
-  }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EvilHotGirl Store — Lua & Amatus</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050307;
+  --card-bg: #0d0b10;
+  --accent1: #a855f7;
+  --accent2: #38bdf8;
+  --text: #f1f5f9;
+  --radius: 14px;
 }
-@media (max-width: 768px) {
-  .card, .comment, .cat-card, .product {
-    animation: none !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-}
-@media (max-width: 768px) {
-  .products-grid img,
-  .comments-grid img {
-    width: 100px !important;
-    height: auto !important;
-  }
-}
-@media (max-width: 768px) {
-  #bg-video {
-    display: none;
-  }
-  body {
-    background: url("bg-mobile.jpg") no-repeat center center/cover;
-  }
-}
-@media (max-width: 768px) {
-  .neon-pulse, .btn-neon-strong, #play-pause {
-    animation: none;
-    text-shadow: 0 0 5px #ff00ff, 0 0 10px #00ffff;
-  }
-}
-
-  /* Player simplificado */
-  .player-corner {
-    position: static;
-    margin: 10px auto;
-    box-shadow: none !important;
-    background: rgba(0,0,0,0.6);
-  }
-}
-
-#card-ask {
-  max-width: 600px;  /* reduz a largura */
-  min-height: auto;  /* remove altura fixa */
-  padding: 24px;     /* mais compacto */
-}
-
-#card-ask h3 {
-  font-size: 22px;   /* aumenta título */
-}
-
-#card-ask p {
-  font-size: 16px;   /* aumenta texto */
-}
-.moon-card {
-  max-width: 600px;   /* igual aos outros */
-  width: 100%;
-  padding: 22px;
-  border-radius: 14px;
-  margin: 0 auto;     /* centraliza */
-}
-.cards-grid {
-  gap: 28px;   /* aumenta espaçamento entre os cards */
-}
-
-.moon-wrap {
-  margin-bottom: 40px; /* separa o card da Lua do próximo */
-}
-.bottom-cards .card {
-  max-width: 600px;
-  min-height: auto;
-  padding: 22px;
-}
-
-.bottom-cards .card h3 {
-  font-size: 20px;
-}
-
-.bottom-cards .card p {
-  font-size: 15px;
-}
-.moon-wrap {
-  display: flex;
-  justify-content: center;
-  margin: 30px auto;
-}
-
-.moon-card {
-  max-width: 280px;              /* igual aos outros cards */
+.footer {
+  text-align: center;   /* centraliza horizontalmente */
   padding: 20px;
-  border-radius: 16px;
-  background: rgba(10, 10, 10, 0.9);
-  text-align: center;
-  box-shadow: 0 0 12px rgba(200, 0, 255, 0.6); /* neon igual */
-  transition: transform 0.2s ease-in-out;
-}
-
-.moon-card:hover {
-  transform: translateY(-5px);
-}
-
-.moon-card h4 {
-  font-size: 18px;
-  color: #ff7bff;                /* rosa neon como os títulos */
-  margin-bottom: 10px;
-}
-
-.moon-card .meta {
+  color: #888;
   font-size: 14px;
-  color: #b3e5ff;                /* azul claro */
-  margin-top: 6px;
 }
 
-.moon-card p {
-  font-size: 14px;
-  color: #ffffff;                /* texto branco visível */
-  margin-top: 8px;
-}
-
-.moon-card input {
-  width: 100%;
-  margin-top: 10px;
-  padding: 6px;
-  border-radius: 8px;
-  border: none;
-}
-.card {
-  background: rgba(10, 10, 10, 0.9);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  box-shadow: 0 0 12px rgba(200, 0, 255, 0.6);
-  transition: transform 0.2s ease-in-out;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.neon-pulse {
-  color: #ff7bff;
-  text-shadow: 0 0 5px #ff7bff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-  animation: pulse 1.5s infinite alternate;
-}
-
-@keyframes pulse {
-  from {
-    text-shadow: 0 0 5px #ff7bff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-  }
-  to {
-    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff33ff, 0 0 30px #ff33ff;
-  }
-}
-
-/* Card com efeito RGB */
-#card-ask {
-  width: 100%;           /* ocupa todo o container */
-  height: 100%;          /* ocupa toda a altura */
-  max-width: 900px;      /* limite para não ficar gigante */
-  margin: 0 auto;        /* centraliza */
-  padding: 30px;         /* mantém respiro interno */
-  box-sizing: border-box;/* inclui padding no cálculo */
-}
-.card-container {
+/* TAROT */
+#tarot {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin: 0 auto;
-  max-width: 900px;
+  justify-content: center;
 }
-.comments-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 por linha */
-  gap: 16px;
-  justify-content: center; /* centraliza os cards */
-  margin: 0 auto;
-  max-width: 950px; /* igual largura dos produtos */
-}
-
-.comment {
-  background: rgba(10, 10, 10, 0.9);
-  border-radius: 10px;
-  padding: 12px;
-  text-align: center;
-  box-shadow: 0 0 8px rgba(200, 0, 255, 0.6);
-  transition: transform 0.2s ease-in-out;
-  max-width: 200px; /* menorzinho */
-  margin: 0 auto;
-}
-
-.comment:hover {
-  transform: translateY(-5px);
-}
-
-.comment img {
-  width: 40px;   /* menor */
-  height: 40px;
-  border-radius: 50%;
-  margin-bottom: 6px;
-}
-
-.comment strong {
-  display: block;
-  margin-top: 4px;
-  font-size: 14px;
-  color: #b84dff;
-  text-transform: uppercase;
-}
-
-.comment p {
-  font-size: 13px;
-  margin-top: 6px;
-  color: #ddd;
-}
-.comment {
-  background: linear-gradient(145deg, #0d0d0d, #1a001a); /* fundo dark igual */
-  border-radius: 12px;
-  padding: 14px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(200, 0, 255, 0.6), 
-              0 0 25px rgba(0, 200, 255, 0.4); /* neon colorido */
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.comment:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 20px rgba(255, 0, 200, 0.8),
-              0 0 30px rgba(0, 200, 255, 0.6); /* brilho mais forte */
-}
-
-.comment strong {
-  display: block;
-  margin-top: 6px;
-  font-size: 14px;
-  color: #ff66ff; /* cor neon no nome */
-  text-transform: uppercase;
-}
-
-.comment p {
-  font-size: 13px;
-  margin-top: 6px;
-  color: #ffffff; /* deixa o texto claro */
-}
-
-    /* ---------- Reset e base ---------- */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%;margin:0;padding:0}
-    body{
-      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(176,107,255,0.04), transparent 10%),
-        linear-gradient(180deg,var(--bg-1) 0%, #020204 100%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
-    }
-    .comment-form {
-  margin: 60px auto 40px auto; /* mais espaço em cima e embaixo */
-  max-width: 800px;            /* mais largo */
-  width: 100%;
-  background: rgba(10, 10, 10, 0.9);
-  border-radius: 12px;
-  padding: 18px;
-  box-shadow: 0 0 15px rgba(255, 0, 200, 0.6),
-              0 0 25px rgba(0, 200, 255, 0.4);
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.comment-form:hover {
-  box-shadow: 0 0 20px rgba(255, 0, 200, 0.8),
-              0 0 35px rgba(0, 200, 255, 0.6);
-}
-
-.comment-form textarea {
-  width: 100%;
-  min-height: 60px;   /* altura menor */
-  max-height: 120px;  /* impede de ficar gigante */
-  border-radius: 8px;
-  border: none;
-  padding: 10px;
-  resize: vertical;
-  font-size: 14px;
-}
-.menu {
+.tarot-row {
   display: flex;
   gap: 12px;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.menu .btn-grad {
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #ff00ff, #00ffff);
-  color: #fff;
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 0 12px rgba(255, 0, 200, 0.7),
-              0 0 20px rgba(0, 200, 255, 0.5);
-  transition: 0.3s ease;
-}
-
-.menu .btn-grad:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 18px rgba(255, 0, 200, 0.9),
-              0 0 30px rgba(0, 200, 255, 0.7);
-}
-.btn-neon {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  transition: 0.3s;
-}
-
-.btn-neon::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
-  border-radius: 10px;
-  z-index: -1;
-  filter: blur(6px);
-  animation: neon-flow 3s linear infinite;
-}
-
-@keyframes neon-flow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-      /* Neon pulse aplicado a todos os cards */
-.tarot-card, 
-.card, 
-.cat-card {
-  border-radius: 12px;
-  background: rgba(10, 10, 20, 0.8);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 
-              0 0 40px rgba(0, 128, 255, 0.2),
-              0 0 60px rgba(128, 0, 255, 0.2);
-  animation: neonPulse 2.5s infinite alternate;
-  transition: transform 0.3s ease-in-out;
-}
-
-.tarot-card:hover, 
-.card:hover, 
-.cat-card:hover {
-  transform: scale(1.03);
-}
-.comment-form {
-  margin: 40px auto;          /* centraliza e afasta dos cards de cima */
-  max-width: 600px;           /* largura máxima parecida com outros cards */
-  width: 100%;                /* ainda é responsivo */
-  background: rgba(10, 10, 10, 0.9);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(255, 0, 200, 0.6),
-              0 0 25px rgba(0, 200, 255, 0.4);
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.comment-form:hover {
-  box-shadow: 0 0 20px rgba(255, 0, 200, 0.8),
-              0 0 35px rgba(0, 200, 255, 0.6);
-}
-
-.comment-form textarea {
-  width: 100%;
-  min-height: 80px;
-  border-radius: 8px;
-  border: none;
-  padding: 10px;
-  resize: vertical;
-  font-size: 14px;
-}
-
-/* Fonte e efeito igual ao Card Especial */
-.card-neon {
-  font-family: 'Cinzel', serif;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 12px rgba(0, 200, 255, 0.6), 0 0 24px rgba(0, 200, 255, 0.4);
-  animation: neonPulse 2.2s infinite alternate;
-}
-.moon-card {
-  max-width: 280px;         /* mesma largura dos outros cards */
-  margin: 0 auto;           /* centraliza */
-  padding: 20px;
-  border-radius: 16px;      /* borda arredondada */
-  background: rgba(10, 10, 10, 0.9);
-  text-align: center;
-  box-shadow: 0 0 12px rgba(200, 0, 255, 0.6); /* neon */
-  transition: transform 0.2s ease-in-out;
-}
-
-.moon-card:hover {
-  transform: translateY(-5px); /* efeito hover igual aos outros */
-}
-
-/* título */
-.moon-card h3 {
-  font-size: 18px;
-  color: #ff7bff;  /* rosa neon */
-  margin: 10px 0;
-}
-
-/* subtítulos/texto */
-.moon-card p {
-  font-size: 14px;
-  color: #b3e5ff; /* azul claro */
-}
-
-/* Pulsante */
-@keyframes neonPulse {
-  from {
-    text-shadow: 0 0 8px #00eaff, 0 0 16px #00c3ff, 0 0 32px #009dff;
-  }
-  to {
-    text-shadow: 0 0 12px #ffffff, 0 0 24px #00d9ff, 0 0 40px #00aaff;
-  }
-}
-.card-neon {
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-
-  /* Glow neon galáctico */
-  box-shadow: 
-    0 0 15px rgba(0, 200, 255, 0.6),
-    0 0 30px rgba(170, 0, 255, 0.5),
-    0 0 45px rgba(0, 200, 255, 0.3);
-.card {
-  margin: 20px auto; /* centraliza no meio */
-  max-width: 800px; /* limita o tamanho dos cards */
-}
-.card + .card {
-  margin-top: 30px; /* espaço entre cards */
-}
-@media (max-width: 768px) {
-  .card {
-    max-width: 95%; /* ocupa quase toda tela no celular */
-    padding: 16px;
-  }
-
-  .category-grid, .products-grid {
-    grid-template-columns: 1fr; /* 1 card por linha */
-  }
-
-  h2, h3, p {
-    text-align: center; /* títulos centralizados no mobile */
-  }
-}
-  /* Animação pulsante */
-  animation: neonPulse 2.5s infinite alternate;
-}
-
-@keyframes neonPulse {
-  from {
-    box-shadow: 
-      0 0 8px rgba(0, 200, 255, 0.5),
-      0 0 16px rgba(170, 0, 255, 0.4),
-      0 0 24px rgba(0, 200, 255, 0.2);
-  }
-  to {
-    box-shadow: 
-      0 0 20px rgba(0, 200, 255, 0.9),
-      0 0 40px rgba(170, 0, 255, 0.7),
-      0 0 60px rgba(0, 200, 255, 0.5);
-  }
-}
-/* 🔮 Estilo global para todos os cards */
-.card {
-  border-radius: 15px;
-  padding: 20px;
-  text-align: center;
-  color: #fff;
-
-  /* Fundo gradiente translúcido RGB */
-  background: linear-gradient(135deg, 
-    rgba(0, 200, 255, 0.15),   /* azul neon */
-    rgba(170, 0, 255, 0.15),   /* roxo neon */
-    rgba(255, 0, 120, 0.15)    /* rosa neon */
-  );
-
-  /* Bordas suaves */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-
-  /* Glow neon galáctico */
-  box-shadow:
-    0 0 10px rgba(0, 200, 255, 0.7),
-    0 0 20px rgba(170, 0, 255, 0.6),
-    0 0 40px rgba(255, 0, 120, 0.5);
-
-  /* Pulsação contínua */
-  animation: rgbPulse 3s infinite alternate;
-}
-
-/* ✨ Animação de pulsação */
-@keyframes rgbPulse {
-  0% {
-    box-shadow:
-      0 0 10px rgba(0, 200, 255, 0.7),
-      0 0 20px rgba(170, 0, 255, 0.6),
-      0 0 40px rgba(255, 0, 120, 0.5);
-  }
-  100% {
-    box-shadow:
-      0 0 20px rgba(0, 200, 255, 1),
-      0 0 40px rgba(170, 0, 255, 0.9),
-      0 0 60px rgba(255, 0, 120, 0.8);
-  }
-}
-/* Animação neon */
-@keyframes neonPulse { }
-  from {
-    box-shadow: 0 0 10px #00f0ff, 0 0 12px #a200ff, 0 0 18px #ffffff;
-                0 0 20px rgb(0, 195, 255), 0 0 20px #00f0ff, 0 0 28px #00f0ff;
-                0 0 30px #00f0ff, 0 0 16px #ffffff, 0 0 24px #00f0ff;
-  }
-
-  to {
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.7),
-                0 0 45px rgba(0, 128, 255, 0.6),
-                0 0 70px rgba(128, 0, 255, 0.6);
-  }
-/* Botão Comprar - Neon gradiente pulsante */
-.btn.neon-buy {
-  background: linear-gradient(135deg, #ff0080, #ff8c00);
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  box-shadow: 0 0 12px rgba(255, 0, 128, 0.6), 0 0 24px rgba(255, 140, 0, 0.6);
-  animation: neonPulse 2s infinite alternate;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-.logo-text {
-  background: linear-gradient(90deg, #a855f7, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-  animation: pulseNeon 2.5s infinite ease-in-out;
-  text-shadow: 0 0 10px #9333ea, 0 0 20px #3b82f6;
-}
-.btn-neon {
-  background: linear-gradient(90deg, #a855f7, #3b82f6);
-  color: white;
-  border-radius: 12px;
-  padding: 10px 20px;
-  font-weight: bold;
-  animation: pulseNeon 2s infinite ease-in-out;
-  box-shadow: 0 0 10px #3b82f6, 0 0 20px #9333ea;
-}
-.categories h4 {
-  background: linear-gradient(90deg, #a855f7, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: pulseNeon 2.8s infinite ease-in-out;
-  text-shadow: 0 0 8px #9333ea, 0 0 18px #3b82f6;
-}
-.card-title, 
-.card-content {
-  background: linear-gradient(90deg, #a855f7, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: pulseNeon 2.5s infinite ease-in-out;
-  text-shadow: 0 0 12px #9333ea, 0 0 24px #3b82f6;
-}
-.btn-buy {
-  background: linear-gradient(90deg, #ec4899, #f59e0b);
-  color: white;
-  border-radius: 12px;
-  font-weight: bold;
-  padding: 10px 18px;
-  animation: pulseFire 2.2s infinite ease-in-out;
-  box-shadow: 0 0 12px #f59e0b, 0 0 20px #ec4899;
-}
-
-@keyframes pulseFire {
-  0% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
-  50% { box-shadow: 0 0 20px #f59e0b, 0 0 35px #ec4899; }
-  100% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
-}
-.btn-buy {
-  background: linear-gradient(90deg, #ec4899, #f59e0b);
-  color: white;
-  border-radius: 12px;
-  font-weight: bold;
-  padding: 10px 18px;
-  animation: pulseFire 2.2s infinite ease-in-out;
-  box-shadow: 0 0 12px #f59e0b, 0 0 20px #ec4899;
-}
-
-@keyframes pulseFire {
-  0% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
-  50% { box-shadow: 0 0 20px #f59e0b, 0 0 35px #ec4899; }
-  100% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
-}
-.btn-buy {
-  background: linear-gradient(90deg, #ec4899, #f59e0b);
-  color: white;
-  border-radius: 12px;
-  font-weight: bold;
-  padding: 10px 18px;
-  animation: pulseFire 2.2s infinite ease-in-out;
-  box-shadow: 0 0 12px #f59e0b, 0 0 20px #ec4899;
-}
-
-@keyframes pulseFire {
-  0% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
-  50% { box-shadow: 0 0 20px #f59e0b, 0 0 35px #ec4899; }
-  100% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #ec4899; }
-}
-/* ====== Centralizar todos os cards ====== */
-
-/* Cards comuns */
-.card {
-  margin: 0 auto;        /* centraliza */
-  max-width: 600px;      /* largura ideal */
-  width: 100%;
-}
-
-/* Card da Lua */
-.moon-wrap {
-  display: flex;
-  justify-content: center;  /* centraliza horizontal */
-  margin: 30px auto;
-}
-.moon-card {
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
-}
-.more-categories {
-  margin-top: 60px;   /* afasta dos cards de cima */
-  text-align: center; /* mantém centralizado */
-}
-
-.category-grid {
-  margin-top: 20px;   /* separa o título dos cards */
-  display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 20px;          /* espaço entre os cards internos */
+  margin-top: 12px;
 }
-
-/* Card Especial (final da página) */
-.bot
-
-/* Card neon para Categories */
-.cat-card {
+.tarot-card {
+  width: 100px;
+  height: 140px;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 160px;
-  border-radius: 16px;
-  background-size: cover;
-  background-position: center;
+  justify-content: center;
+  perspective: 1000px; /* necessário para flip */
+  cursor: pointer;
+}
+.tarot-card-inner {
   position: relative;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.tarot-card.flipped .tarot-card-inner {
+  transform: rotateY(180deg);
+}
+.tarot-card-front,
+.tarot-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+}
+.tarot-card-front { background: #111; display:flex; align-items:center; justify-content:center; }
+.tarot-card-back { transform: rotateY(180deg); display:flex; align-items:center; justify-content:center; }
+
+#moon-emoji {
+  font-size: 80px; /* ou 100px, o quanto quiser */
   text-align: center;
-  animation: pulseNeon 3s infinite alternate;
-  box-shadow: 0 0 20px rgba(0,198,255,0.4), 0 0 40px rgba(255,0,128,0.3);
+  margin-bottom: 10px;
+  display: block;
 }
 
-.cat-card a {
-  font-size: 20px;
-  font-weight: 700;
-  text-decoration: none;
-  background: linear-gradient(90deg,#00c6ff,#0072ff,#ff0080,#ff8c00);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
-  text-shadow: 0 0 12px rgba(0,198,255,0.8), 0 0 24px rgba(255,0,128,0.6);
-}
-
-/* Centralizar grid no meio */
-.category-grid {
+/* PRODUTOS */
+.products-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+  justify-items: center;
+}
+.product {
+  max-width: 220px;
+  text-align: center;
+}
+.product .imgwrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d0b10;
+}
+.product img {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+/* COMENTÁRIOS */
+.comments-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
   justify-items: center;
   margin-top: 20px;
 }
-
-.category-grid .cat-card {
-  width: 100%;
-  max-width: 400px; /* cada categoria com card próprio centralizado */
+.comment img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
 }
-
-/* Botão Detalhes - apenas pulsante */
-.btn.neon-details {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, .25);
-  color: #fff;
-  font-weight: 600;
-  animation: neonPulseSoft 2s infinite alternate;
-}
-/* Neon pulsante para blocos inteiros */
-.neon-block {
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 8s ease infinite, pulseNeon 2.5s infinite alternate;
-  text-shadow: 0 0 12px rgba(0,198,255,0.8),
-               0 0 24px rgba(255,0,128,0.6);
+.comment {
+  max-width: 220px;
   text-align: center;
-}
-/* Pulsar forte (para Comprar) */
-@keyframes neonPulse {
-  from { box-shadow: 0 0 12px rgba(255,0,128,0.5), 0 0 24px rgba(255,140,0,0.5); }
-  to   { box-shadow: 0 0 20px rgba(255,0,128,0.9), 0 0 40px rgba(255,140,0,0.9); }
-}
-/* Card neon de fundo */
-.neon-card-bg {
-  background: rgba(10, 10, 20, 0.6);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 800px;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(0,198,255,0.35);
-  animation: pulseNeon 2.5s infinite alternate;
+  padding: 12px;
 }
 
-/* Itens centralizados dentro de cards */
-.neon-card-bg a {
-  display: block;
-  margin: 10px auto;
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-decoration: none;
-  font-weight: bold;
-  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
-}
-/* 🌈 Efeito RGB só para textos */
-.neon-rgb {
-  color: #fff;
-  text-shadow: 
-    0 0 5px #ff0080,
-    0 0 10px #ff8c00,
-    0 0 20px #00e1ff,
-    0 0 40px #ff0080;
-  animation: rgbGlow 3s linear infinite, pulseGlow 2s infinite alternate;
-}
+/* Reset */
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); line-height:1.5; }
 
-/* Animação RGB */
-@keyframes rgbGlow {
-  0% { text-shadow: 0 0 5px #ff0080, 0 0 10px #ff8c00; }
-  50% { text-shadow: 0 0 20px #00e1ff, 0 0 40px #ff0080; }
-  100% { text-shadow: 0 0 5px #ff0080, 0 0 10px #ff8c00; }
+/* Header */
+.header {
+  position: sticky;
+  top:0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  z-index:100;
 }
+.header-inner {
+  max-width: 1280px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
+}
+.logo-badge {
+  width:56px;
+  height:56px;
+  border-radius:var(--radius);
+  background: linear-gradient(135deg,var(--accent1),var(--accent2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Cinzel',serif;
+  font-weight:700;
+  color:#000;
+}
+.brand-title h1 { font-family:'Cinzel', serif; color: var(--accent1); margin:0; }
+.menu a {
+  padding:8px 16px;
+  border-radius:10px;
+  background: linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#000;
+  text-decoration:none;
+  font-weight:700;
+  margin-left:6px;
+  transition: transform .2s;
+}
+.menu a:hover { transform: scale(1.05); }
 
-/* Pulso suave */
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding:18px;
+  text-align:center;
+  box-shadow:0 0 15px rgba(168,85,247,0.6);
+  margin:12px 0;
+  animation: pulseGlow 4s infinite;
+}
 @keyframes pulseGlow {
-  from { opacity: 0.8; }
-  to { opacity: 1; }
+  0%,100% { box-shadow: 0 0 12px rgba(168,85,247,0.5); }
+  50% { box-shadow: 0 0 24px rgba(56,189,248,0.7); }
 }
+.card h3 { font-family:'Cinzel', serif; margin-bottom:8px; color: var(--accent2); }
 
-/* Pulsante para textos especiais */
-.neon-pulse {
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 8s ease infinite, pulseNeon 2.5s infinite alternate;
-  text-shadow: 0 0 12px rgba(0,198,255,0.8),
-               0 0 24px rgba(255,0,128,0.6);
-}
+/* Buttons */
+.btn { padding:10px 16px; border-radius:12px; border:none; cursor:pointer; font-weight:700; margin:4px; }
+.btn-grad { background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:#000; animation:pulseGlow 3s infinite; }
+.btn-ghost { background:transparent; border:1px solid rgba(255,255,255,0.2); color:#aaa; }
 
-/* Pulsar suave (para Detalhes) */
-@keyframes neonPulseSoft {
-  from { box-shadow: 0 0 6px rgba(255,255,255,0.2); }
-  to   { box-shadow: 0 0 14px rgba(255,255,255,0.6); }
+/* Tarot Flip */
+.tarot-card {
+  width:120px;
+  height:160px;
+  perspective:1000px;
+  margin:6px;
 }
-/* Card de fundo para títulos */
-.section-title-card {
-  display: inline-block;
-  padding: 10px 25px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.6);
-  box-shadow: 0 0 15px rgba(0,198,255,0.7), 0 0 30px rgba(255,0,128,0.5);
+.tarot-inner {
+  position:relative;
+  width:100%;
+  height:100%;
+  text-align:center;
+  transition: transform .6s;
+  transform-style: preserve-3d;
+  cursor:pointer;
+}
+.tarot-card.flipped .tarot-inner { transform: rotateY(180deg); }
+.tarot-front, .tarot-back {
+  position:absolute;
+  width:100%;
+  height:100%;
+  backface-visibility: hidden;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.tarot-front { background:#111; color:#fff; }
+.tarot-back { transform: rotateY(180deg); background:#222; }
+
+/* Grids */
+.services-grid {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+}
+.services-col { display:flex; flex-direction:column; gap:12px; min-width:260px; }
+
+.products-grid, .comments-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+  margin-top:16px;
+}
+.footer {
   text-align: center;
-  margin: 0 auto 25px auto;
-  animation: pulseNeon 3s infinite alternate;
-}
-
-/* Texto neon visível */
-.section-title-card h3 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: bold;
-  background: linear-gradient(90deg,#00c6ff,#ff0080,#ff8c00);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
-  text-shadow: 0 0 12px rgba(0,198,255,0.8), 0 0 24px rgba(255,0,128,0.6);
-}
-
-/* Cards de categorias */
-.category-grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.cat-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 280px;   /* agora ajustável */
-  height: 120px;
-  border-radius: 14px;
-  background: rgba(0,0,0,0.7);
-  text-align: center;
-  animation: pulseNeon 3s infinite alternate;
-  box-shadow: 0 0 15px rgba(0,198,255,0.4), 0 0 25px rgba(255,0,128,0.3);
-}
-
-.cat-card a {
-  font-size: 18px;
-  font-weight: 600;
-  text-decoration: none;
-  background: linear-gradient(90deg,#00c6ff,#ff0080,#ff8c00);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
-  text-shadow: 0 0 10px rgba(0,198,255,0.8);
-}
-
-    /* ---------- Container ---------- */
-    .container{
-      width:min(var(--max-width),94%);
-      margin:0 auto;
-      padding:22px 0;
-    }
-a {
-  text-decoration: none;
-}
-.neon-buy {
-  text-decoration: none; /* remove a linha */
-  display: inline-block; /* garante que fique como botão */
-}
-/* Neon pulsante aplicado a tudo */
-.neon-text {
-  text-align: center;
-  background: linear-gradient(135deg, #00f9ff, #7a5fff, #ff00f7);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: pulseNeon 2.5s infinite alternate;
-  text-shadow: 0 0 8px rgba(0, 249, 255, 0.6),
-               0 0 16px rgba(122, 95, 255, 0.5),
-               0 0 24px rgba(255, 0, 247, 0.4);
-}
-
-/* Aplica pulsar em blocos inteiros (cards) */
-.neon-card {
-  text-align: center;
-  background: rgba(0, 0, 0, 0.35);
-  border: 2px solid rgba(0, 249, 255, 0.4);
-  border-radius: 14px;
   padding: 20px;
-  margin: 12px auto;
-  animation: pulseNeon 3s infinite alternate;
-  box-shadow: 0 0 14px rgba(0, 249, 255, 0.4),
-              0 0 28px rgba(122, 95, 255, 0.35),
-              0 0 40px rgba(255, 0, 247, 0.25);
-  max-width: 720px;
+  color: rgb(136, 136, 136); /* cinza */
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(20, 10, 30);
+  font-size: 14px;
+  text-shadow: 0 0 6px rgba(176, 107, 255, 0.7);
+  animation: pulseFooter 4s infinite;
 }
 
-/* Animação */
-@keyframes pulseNeon {
-  0% { opacity: 0.9; text-shadow: 0 0 8px #00f9ff, 0 0 16px #7a5fff, 0 0 24px #ff00f7; }
-  100% { opacity: 1; text-shadow: 0 0 16px #00f9ff, 0 0 28px #7a5fff, 0 0 40px #ff00f7; }
+@keyframes pulseFooter {
+  0%, 100% { text-shadow: 0 0 6px rgba(176, 107, 255, 0.7); }
+  50% { text-shadow: 0 0 14px rgba(176, 107, 255, 1); }
 }
 
-    /* ---------- Header ---------- */
-    .header{
-      padding:14px 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.08), transparent);
-      border-bottom:1px solid rgba(255,255,255,0.01);
-      position:sticky; top:0; z-index:60; backdrop-filter: blur(6px);
-    }
-    .header-inner{display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo-badge{
-      width:56px;height:56px;border-radius:12px;
-      background:linear-gradient(135deg,var(--accent1),var(--accent2));
-      display:flex;align-items:center;justify-content:center;color:#061024;font-weight:800;font-family:'Cinzel',serif;
-      box-shadow:0 6px 18px rgba(0,0,0,0.5);
-    }
-    .brand-title h1{margin:0;font-family:'Cinzel',serif;color:var(--accent1);font-size:18px}
-    .brand-title p{margin:0;font-size:12px;color:var(--muted)}
-
-    .topnav{display:flex;gap:16px;align-items:center}
-    .topnav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-size:14px}
-    .topnav a.whatsapp{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#061024;font-weight:700}
-
-    /* ---------- Hero ---------- */
-    .hero{padding:28px 0 14px;text-align:center}
-    .hero h2{font-family:'Cinzel',serif;font-size:32px;color:var(--accent1);margin:0;text-shadow:0 6px 18px rgba(0,0,0,0.5)}
-    .hero p.lead{color:var(--muted);max-width:900px;margin:10px auto 0;font-size:15px}
-
-    /* ---------- Cards Grid ---------- */
-    .cards-grid{
-      display:grid;
-      grid-template-columns: repeat(3,1fr);
-      gap:20px;
-      margin-top:20px;
-      align-items:stretch;
-    }
-/* ===== TEXTOS PULSANTES ===== */
-.neon-text {
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #9d00ff, #ff0080, #ff8c00);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 8s ease infinite, pulseNeon 2s infinite alternate;
-  text-shadow: 0 0 12px rgba(0,198,255,0.8), 0 0 24px rgba(255,0,128,0.6);
-}
-
-/* ===== BOTÕES GALÁCTICOS PULSANTES ===== */
-.btn-neon {
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
-  background-size: 300% 300%;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  padding: 12px 22px;
-  border-radius: 12px;
-  cursor: pointer;
-  text-shadow: 0 0 6px #fff;
-  box-shadow: 0 0 12px rgba(0,198,255,0.7), 0 0 28px rgba(255,0,128,0.5);
-  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
-  transition: transform 0.2s ease-in-out;
-}
-
-.btn-neon:hover {
-  transform: scale(1.05);
-}
-/* ===== TEXTOS PULSANTES ===== */
-.neon-text {
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #9d00ff, #ff0080, #ff8c00);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 8s ease infinite, pulseNeon 2s infinite alternate;
-  text-shadow: 0 0 12px rgba(0,198,255,0.8), 0 0 24px rgba(255,0,128,0.6);
-}
-
-/* ===== BOTÕES GALÁCTICOS PULSANTES ===== */
-.btn-neon {
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff0080, #ff8c00);
-  background-size: 300% 300%;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  padding: 12px 22px;
-  border-radius: 12px;
-  cursor: pointer;
-  text-shadow: 0 0 6px #fff;
-  box-shadow: 0 0 12px rgba(0,198,255,0.7), 0 0 28px rgba(255,0,128,0.5);
-  animation: gradientShift 6s ease infinite, pulseNeon 2.5s infinite alternate;
-  transition: transform 0.2s ease-in-out;
-}
-
-.btn-neon:hover {
-  transform: scale(1.05);
-}
-
-/* ===== ANIMAÇÕES ===== */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes pulseNeon {
-  0% { text-shadow: 0 0 8px rgba(0,198,255,0.6), 0 0 20px rgba(255,0,128,0.4); }
-  100% { text-shadow: 0 0 18px rgba(0,198,255,1), 0 0 40px rgba(255,0,128,0.8); }
-}
-
-/* ===== ANIMAÇÕES ===== */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes pulseNeon {
-  0% { text-shadow: 0 0 8px rgba(0,198,255,0.6), 0 0 20px rgba(255,0,128,0.4); }
-  100% { text-shadow: 0 0 18px rgba(0,198,255,1), 0 0 40px rgba(255,0,128,0.8); }
-}
-
-    /* Card base: centraliza conteúdo (resolve alinhamento) */
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
-      border-radius:var(--card-radius);
-      padding:var(--card-padding);
-      border:1px solid var(--glass);
-      box-shadow:var(--shadow-strong);
-      text-align:center;
-      min-height:260px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      gap:10px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .card h3{font-family:'Cinzel',serif;color:var(--accent1);margin:0;font-size:18px}
-    .card p.muted{color:var(--muted);font-size:13px;margin:0}
-
-    /* Input container: garante que inputs não ultrapassem o card
-       Aplicamos box-sizing global ao input e força width via calc,
-       com !important para evitar conflitos de outras regras.
-    */
-    .card .input-box{width:100%;display:flex;justify-content:center}
-    .card input[type="text"],
-    .card textarea{
-      display:block;
-      margin:10px auto;
-      /* garante que o input sempre caiba dentro do card, mesmo com padding */
-      width: calc(100% - 44px) !important;
-      max-width: 320px !important;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.03);
-      background: rgba(0,0,0,0.45);
-      color:var(--text);
-      font-size:14px;
-      box-sizing:border-box;
-      text-align:center;
-      outline:none;
-    }
-    .card input[type="text"]::placeholder,
-    .card textarea::placeholder{
-      color:#bdbdbd;
-      opacity:0.9;
-    }
-
-    /* Buttons base */
-    .btn{padding:10px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:700}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-    .btn-grad{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#061024}
-
-    /* ---------- Product grid ---------- */
-    .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px}
-    .product{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.00));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);text-align:center;box-shadow:0 12px 30px rgba(0,0,0,0.55)}
-    .product img{width:100%;height:180px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
-    .product h4{font-family:'Cinzel',serif;color:var(--accent1);margin:12px 0 6px;font-size:16px}
-    .product .desc{color:var(--muted);font-size:13px}
-    .product .price{color:var(--accent2);font-weight:700;margin-top:8px}
-
-    /* ---------- Categories ---------- */
-    .category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}
-    .cat-card{height:210px;background-size:cover;background-position:center;border-radius:12px;display:flex;align-items:end;padding:18px;color:#fff;text-shadow:0 6px 18px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.02)}
-    .cat-card a{color:#fff;font-family:'Cinzel',serif;font-size:24px;text-decoration:none;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg,rgba(0,0,0,0.15),rgba(0,0,0,0.02))}
-
-    /* ---------- Comments ---------- */
-    .comments-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:14px}
-    .comment{padding:14px;border-radius:10px;text-align:center;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 20px rgba(0,0,0,0.4)}
-    .comment img{width:64px;height:64px;border-radius:50%;object-fit:cover;margin-bottom:6px}
-    .comment strong{display:block;margin-bottom:6px;font-family:'Cinzel',serif;color:var(--accent1)}
-
-    .comment-form textarea{width:100%;max-width:860px;height:100px;padding:12px;border-radius:10px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.03);color:var(--text);resize:vertical}
-
-    /* ---------- Moon card ---------- */
-    .moon-wrap{display:flex;justify-content:center;margin-top:28px}
-    .moon-card{width:540px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));border-radius:14px;padding:20px;text-align:center;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow-strong)}
-    .moon-emoji{font-size:48px;margin-bottom:8px}
-    .moon-card h4{font-family:'Cinzel',serif;color:var(--accent1);margin:6px 0}
-    .moon-card .meta{color:var(--muted);font-size:13px;margin-bottom:8px}
-    .moon-actions{display:flex;gap:8px;justify-content:center;margin-top:10px}
-    .moon-actions input{width:320px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.45);color:var(--text)}
-
-    /* ---------- Bottom two cards side-by-side ---------- */
-    .bottom-cards{display:flex;gap:18px;justify-content:center;margin-top:18px}
-    .bottom-cards .bot{flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:18px;border-radius:12px;text-align:center;border:1px solid rgba(255,255,255,0.03)}
-
-    /* ---------- Player ---------- */
-    .player-corner{position:fixed;right:20px;bottom:20px;background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:12px;border-radius:12px;color:#061024;box-shadow:0 10px 36px rgba(0,0,0,0.6);display:flex;gap:8px;align-items:center;z-index:9999}
-
-    /* ---------- BUY BUTTON (DESTAQUE) ---------- */
-    .btn-compra{
-      background: linear-gradient(45deg, var(--danger), var(--gold));
-      color: #061024;
-      padding: 12px 28px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 6px 30px rgba(255,0,102,0.28), 0 0 18px rgba(255,204,0,0.18);
-      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
-      display:inline-block;
-      text-transform:none;
-    }
-
-    .btn-compra:hover{
-      transform: translateY(-4px) scale(1.04);
-      box-shadow: 0 18px 46px rgba(255,0,102,0.36), 0 0 28px rgba(255,204,0,0.28);
-      filter: saturate(1.12);
-    }
-
-    /* Floating purchase button (always visible) */
-    .btn-compra-floating{
-      position:fixed;
-      right:24px;
-      bottom:92px;
-      z-index:9998;
-      box-shadow:0 20px 50px rgba(0,0,0,0.5);
-      animation: pulse 2200ms infinite;
-    }
-
-    @keyframes pulse{
-      0%{ transform: translateY(0) scale(1); }
-      50%{ transform: translateY(-6px) scale(1.02); }
-      100%{ transform: translateY(0) scale(1); }
-    }
-
-    /* ---------- Footer ---------- */
-    .footer{margin-top:36px;padding:14px 0;color:var(--muted);text-align:center;font-size:13px}
-
-/* ---------- Responsive ---------- */
-@media(max-width:1100px){
-  .products-grid{grid-template-columns:repeat(3,1fr)}
-  .cards-grid{grid-template-columns:1fr}
-  .moon-card{width:100%}
-}
-@media(max-width:780px){
-  .products-grid{grid-template-columns:repeat(2,1fr)}
-  .category-grid{grid-template-columns:repeat(2,1fr)}
-  .comments-grid{grid-template-columns:repeat(2,1fr)}
-  .cards-grid{grid-template-columns:1fr}
-  .bottom-cards{flex-direction:column}
-}
-@media(max-width:560px){
-  .products-grid{grid-template-columns:1fr}
-  .category-grid{grid-template-columns:1fr}
-  .comments-grid{grid-template-columns:1fr}
-  .cards-grid{grid-template-columns:1fr}
-  .moon-card{width:100%}
-  .btn-compra{padding:10px 16px;font-size:14px}
-  .btn-compra-floating{right:12px;bottom:72px}
-}
-
-    /* Extra: ensure links have good contrast */
-    a{color:inherit}
-  </style>
-
-<style id="mobile-optimization">
-@media (max-width: 768px) {
-  /* Fundo estático para celular */
-  #bg-container video { display: none !important; }
-  #bg-container { background: url('bg-mobile.jpg') no-repeat center center fixed; background-size: cover; }
-
-  /* Desliga animações pesadas */
-  .card, .product, .comment, .btn-neon, .btn-neon-strong, .neon-pulse {
-    animation: none !important;
-    box-shadow: none !important;
-    text-shadow: 0 0 6px #550055, 0 0 12px #220022 !important;
-  }
-
-  /* Ajusta grid para 1 coluna */
-  .products-grid, .comments-grid, .category-grid, .cards-grid {
-    grid-template-columns: 1fr !important;
-    display: grid !important;
-    gap: 12px !important;
-  }
-
-  /* Ajusta tamanho de texto e botões */
-  h1, h2 { font-size: 1.2rem !important; }
-  .btn-neon, .btn-neon-strong { font-size: 1rem !important; padding: 10px 18px !important; }
-
-  /* Player compacto e sem */
-  #audio-container { bottom: 70px; right: 50%; transform: translateX(50%); }
+/* Responsive */
+@media(max-width:768px){
+  .services-grid { flex-direction:column; }
+  .tarot-card { width:90px; height:140px; }
 }
 </style>
-
 </head>
-
 <body>
-<div id="bg-container"></div>
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo-badge">EH</div>
+      <div class="brand-title">
+        <h1>EvilHotGirl Store</h1>
+        <p>Gótico • Galáctico • Tarot & Consultas</p>
+      </div>
+    </div>
+    <nav class="menu">
+      <a href="https://wa.me/81993523392" target="_blank">WhatsApp</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- HEADER -->
-  <header class="header" role="banner" aria-label="Topo">
-    <div class="container header-inner">
-      <div class="brand">
-        <div class="logo-badge" aria-hidden="true">EH</div>
-        <div class="brand-title">
-          <h1>EvilHotGirl Store</h1>
-          <p>Gótico • Galáctico • Tarot & Consultas</p>
+<!-- HERO -->
+<section class="card">
+  <h3>BEM-VINDA À EVILHOTGIRL STORE</h3>
+  <p>"Peças góticas, tarot exclusivo, consultas com sua Robozinha — tudo envolto em galáxia e mistério."</p>
+</section>
+
+<!-- CARD DA LUA -->
+<section class="card" id="moon-card" style="max-width:320px; margin:auto;">
+  <h3>🌙 Frase da Lua 🌙 </h3>
+  <p id="moon-phase">Carregando fase lunar...</p>
+   <input id="moon-city" placeholder="Buscar cidade (opcional)" style="padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.45);color:rgb(242,247,255);max-width:220px">
+  <div>
+    
+<section class="card small" id="moon-card" style="text-align:center;">
+  <div id="moon-emoji" style="font-size:72px;">🌙</div>
+  <h3 class="title-pulse">Card da Lua</h3>
+  <div id="moon-dt" class="muted" style="margin-bottom:8px;">--</div>
+  <p id="moon-phrase" class="muted">Sussurros da Lua.</p>
+  <div class="controls" style="margin-top:12px;justify-content:center;display:flex;gap:8px;">
+    <button id="moon-calc" class="btn btn-primary btn-pulse">Buscar</button>
+    <button id="moon-reset" class="btn btn-ghost">Reset (Hoje)</button>
+  </div>
+</section>
+
+<script>
+(function(){
+  function moonAge(date){
+    const syn = 29.53058867; // mês sinódico
+    const newMoon = new Date("2000-01-06T18:14:00Z"); // Lua Nova de referência
+    const diff = (date - newMoon)/1000/60/60/24;
+    const age = diff % syn;
+    return age < 0 ? age + syn : age;
+  }
+
+  function phaseName(age){
+    if(age < 1.84566) return ['Lua Nova','🌑'];
+    else if(age < 5.53699) return ['Crescente','🌒'];
+    else if(age < 9.22831) return ['Quarto Crescente','🌓'];
+    else if(age < 12.91963) return ['Gibbosa Crescente','🌔'];
+    else if(age < 16.61096) return ['Lua Cheia','🌕'];
+    else if(age < 20.30228) return ['Gibbosa Minguante','🌖'];
+    else if(age < 23.99361) return ['Quarto Minguante','🌗'];
+    else return ['Minguante','🌘'];
+  }
+
+  function updateMoon(){
+    const now = new Date();
+
+    // Data local (ex: Recife)
+    try{
+      const fmt = new Intl.DateTimeFormat('pt-BR',{dateStyle:'full',timeStyle:'medium',timeZone:'America/Recife'});
+      document.getElementById('moon-dt').textContent = fmt.format(now);
+    }catch(e){
+      document.getElementById('moon-dt').textContent = now.toLocaleString();
+    }
+
+    const age = moonAge(new Date((new Date()).toLocaleString('en-US',{timeZone:'America/Recife'})));
+    const [name, emoji] = phaseName(age);
+
+    document.getElementById('moon-emoji').textContent = emoji;
+    document.getElementById('moon-phase').textContent = `Fase: ${name} (idade ≈ ${age.toFixed(1)} dias)`;
+
+    const phrases = ['Silêncio suave — descanso e cura.','A Lua sussurra: respire, confie, deixe ir.','Hoje a Lua convida a se reencontrar.'];
+    document.getElementById('moon-phrase').textContent = phrases[Math.floor(age) % phrases.length];
+  }
+
+  setInterval(updateMoon,1000);
+  updateMoon();
+})();
+</script>
+
+<!-- CARD ESPECIAL -->
+<section class="card">
+  <h3>💫 Card Especial — Mensagem ✨</h3>
+  <p>"Hoje a Lua sussurra — deixa ir o que não serve."</p>
+</section>
+
+<!-- SERVIÇOS E TAROT -->
+<section class="services-grid">
+  <div class="services-col">
+    <div class="card">
+      <h3>💭 Mande sua Pergunta</h3>
+      <input type="text" placeholder="Ex: Eu irei ter sorte?" style="width:90%; padding:8px; border-radius:8px; border:none; margin-bottom:8px;">
+      <div>
+    <button id="moon-calc" class="btn btn-primary btn-pulse">Buscar</button>
+    <button id="moon-reset" class="btn btn-ghost">Reset (Hoje)</button>
+  </div>
+</section>
+    </div>
+
+    <div class="card">
+      <h3>🔵 Realize sua Consulta</h3>
+      <p>Sessões ao vivo por agendamento.</p>
+      <button class="btn btn-grad">Agendar WhatsApp</button>
+      <button class="btn btn-ghost">Mais Informações</button>
+    </div>
+  </div>
+
+  <div class="card" id="tarot">
+    <h3>🔮 Pergunte ao Tarot</h3>
+    <p>As 2 primeiras cartas são gratuitas — a 3ª exige pagamento.</p>
+    <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+      <div class="tarot-card" onclick="flipCard(this)">
+        <div class="tarot-inner">
+          <div class="tarot-front"><span>Carta 1</span></div>
+          <div class="tarot-back"><img src="assets/tarot1.jpg" alt="Carta 1" style="width:100%; height:100%; border-radius:12px;"></div>
         </div>
       </div>
 
-<nav class="menu">
-  <a href="#produtos" class="btn-neon">Produtos</a>
-  <a href="#tarot" class="btn-neon">Tarot</a>
-  <a href="https://wa.me/xxxxxx" target="_blank" class="btn-neon">WhatsApp</a>
-</nav>
+      <div class="tarot-card" onclick="flipCard(this)">
+        <div class="tarot-inner">
+          <div class="tarot-front"><span>Carta 2</span></div>
+          <div class="tarot-back"><img src="assets/tarot2.jpg" alt="Carta 2" style="width:100%; height:100%; border-radius:12px;"></div>
+        </div>
+      </div>
 
-    </div>
-  </header>
-        <!-- PROMO STRIP -->
-<div style="text-align:center; margin: 40px 0;">
-  <h2 class="btn-neon" style="display:inline-block;padding:10px 18px;">
-    ✨ Sua Robozinha Galáctica
-  </h2>
-  <!-- HERO -->
-<section class="hero" role="region" aria-label="Hero">
-  <div class="container">
-    <div class="card" id="card-ask" aria-labelledby="card-ask-title">
-      <h3 class="neon-pulse">BEM-VINDA À EVILHOTGIRL STORE</h3>
-      <p class="neon-pulse">
-        "Peças góticas, tarot exclusivo, consultas com sua Robozinha — tudo envolto em galáxia e mistério."
-      </p>
+      <div class="tarot-card" onclick="flipCard(this)">
+        <div class="tarot-inner">
+          <div class="tarot-front"><span>Carta 3</span></div>
+          <div class="tarot-back"><img src="assets/tarot3.jpg" alt="Carta 3" style="width:100%; height:100%; border-radius:12px;"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-  <!-- THREE MAIN CARDS -->
-  <main role="main">
-    <section aria-label="Serviços">
-      <div class="container cards-grid">
+<!-- FRASES DA LUA -->
 
-        <!-- CARD 1: PERGUNTA (corrigido) -->
-        <article class="card" id="card-ask" aria-labelledby="card-ask-title">
-          <h3 class="neon-text">🔮 Mande sua pergunta</h3>
+<!-- CARD ESPECIAL -->
+<section class="card">
+  <h3>💫 PRODUTOS 💫</h3>
+  <p id="moon-special-phrase">"Hoje a Lua sussurra — deixa ir o que não serve." 🛒</p>
+</section>
 
-          <div class="input-box" role="form" aria-label="Formulário de pergunta">
-            <input id="ask-input" type="text" placeholder="Ex: Eu irei ter sorte?" aria-label="Campo de pergunta">
-          </div>
+<script>
+// Lua: cálculo simplificado da fase
+function updateMoon() {
+  const now = new Date();
+  const synodicMonth = 29.53058867;
+  const newMoon = new Date("2025-01-29T00:00:00Z");
+  const daysSinceNew = (now - newMoon) / 1000 / 60 / 60 / 24;
+  const age = daysSinceNew % synodicMonth;
 
-          <div style="margin-top:10px;display:flex;gap:10px;justify-content:center;width:100%">
-            <button id="send-whatsapp" class="btn btn-grad">Enviar (WhatsApp)</button>
-            <button id="clear-ask" class="btn btn-ghost">Limpar</button>
-          </div>
-        </article>
+  let phaseEmoji = "🌑";
+  if (age < 1.84566) phaseEmoji = "🌑";
+  else if (age < 5.53699) phaseEmoji = "🌒";
+  else if (age < 9.22831) phaseEmoji = "🌓";
+  else if (age < 12.91963) phaseEmoji = "🌔";
+  else if (age < 16.61096) phaseEmoji = "🌕";
+  else if (age < 20.30228) phaseEmoji = "🌖";
+  else if (age < 23.99361) phaseEmoji = "🌗";
+  else phaseEmoji = "🌘";
 
-        <!-- CARD 2: TAROT -->
-        <article class="card" id="card-tarot" aria-labelledby="card-tarot-title">
-          <h3 class="neon-text">✨ Pergunte ao Tarot</h3>
-          <p class="neon-text">As 2 primeiras cartas são gratuitas — a 3ª exige pagamento.</p>
+  document.getElementById("moon-phase").innerText = `${phaseEmoji} Idade Lunar: ${age.toFixed(1)} dias\n${now.toLocaleString()}`;
+  const phrases = [
+    "Silêncio suave — descanso e cura.",
+    "A Lua sussurra: respire, confie, deixe ir.",
+    "Hoje a Lua convida a se reencontrar."
+  ];
+  document.getElementById("moon-special-phrase").innerText = phrases[Math.floor(age) % phrases.length];
+}
 
-          <div id="tarot-area" style="display:flex;gap:12px;justify-content:center;align-items:flex-start;margin-top:12px;width:100%;">
-            <!-- 3 placeholders de cartas (botões) -->
-            <button class="tarot-card btn-ghost" data-index="1" style="width:120px;height:160px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px">Carta 1</button>
+function resetMoon() {
+  updateMoon();
+}
 
-            <button class="tarot-card btn-ghost" data-index="2" style="width:120px;height:160px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px">Carta 2</button>
+// Card Tarot flip
+function flipCard(card) {
+  const inner = card.querySelector('.tarot-inner');
+  if(inner) inner.classList.toggle('flipped');
+}
+</script>
 
-            <button class="tarot-card btn-ghost" data-index="3" id="tarot-card-3" style="width:120px;height:160px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px">Carta 3</button>
-          </div>
+<style>
+.tarot-card {
+  perspective: 1000px;
+  width: 90px; height: 130px; margin:6px;
+}
+.tarot-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.tarot-inner.flipped {
+  transform: rotateY(180deg);
+}
+.tarot-front, .tarot-back {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:12px;
+  background:#111; color:#fff;
+}
+.tarot-back { transform: rotateY(180deg); }
+</style>
+<!-- PRODUTOS -->
+<section id="produtos">
+  <h3 class="title-pulse center"></h3>
+  <div class="products-grid">
+    <div class="card product">
+      <div class="imgwrap"><img src="img/product1.jpg" alt="Vestido Gótico"></div>
+      <h4>Vestido Gótico • Noite</h4>
+      <p>Corte vintage</p>
+      <strong>R$ 199,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+    <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+            <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+        <div class="card product">
+      <div class="imgwrap"><img src="img/product2.jpg" alt="Colar Místico"></div>
+      <h4>Colar Místico</h4>
+      <p>Símbolos arcanos</p>
+      <strong>R$ 79,90</strong>
+      <button class="btn btn-grad">Comprar no WhatsApp</button>
+    </div>
+    <!-- Repita para os 8 produtos -->
+  </div>
+</section>
+<style>
+.products-grid .card {
+  text-align: center;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(168,85,247,0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.products-grid .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(56,189,248,0.6);
+}
+.products-grid .btn-grad {
+  width: 100%;
+  margin-top: 8px;
+  animation: fadePulse 3s infinite;
+}
+</style>
+<!-- CARD ESPECIAL -->
+<section class="card">
+  <h3>💫 COMENTARIOS 💫</h3>
+  <p id="moon-special-phrase">"Hoje a Lua sussurra — deixa ir o que não serve." 🛒</p>
+</section>
 
-          <div id="tarot-result" style="margin-top:12px;color:var(--muted);min-height:44px"></div>
-
-          <div style="margin-top:10px;">
-            <small class="neon-text">As cartas revelam imagens simbólicas. A 3ª carta direciona para pagamento.</small>
-          </div>
-        </article>
-
-        <!-- CARD 3: CONSULTA -->
-        <article class="card" id="card-book" aria-labelledby="card-book-title">
-          <h3 class="neon-text">🔵 Realize sua consulta</h3>
-          <p class="neon-text">Sessões ao vivo por agendamento.</p>
-
-          <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;width:100%">
-            <button class="btn-neon">Agendar WhatsApp</button>
-            <button class="btn-neon">Mais Informaçoes</button>
-          </div>
-
-        </article>
-
-      </div>
-    </section>
-        <!-- PROMO STRIP -->
-<div style="text-align:center; margin: 40px 0;">
-  <h2 class="btn-neon" style="display:inline-block;padding:10px 18px;">
-    ✨ Sua Robozinha Galáctica
-  </h2>
-  <p class="btn-neon" style="margin-top:12px; font-size:15px; font-style:italic;">
-    "A Lua escuta, o baralho revela, e eu cuido do resto. Pergunte, sinta, transforme."
-  </p>
-</div>
-
-      </div>>
-    </section>
-    <!-- PRODUCTS -->
-    <section id="products">
-      <div class="container">
-        <div class="products-grid" style="margin-top:12px;">
-<div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-  <h4>Vestido Gótico • Noite</h4>
-  <div class="desc">Corte vintage</div>
-  <div class="price">R$ 199,90</div>
-  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-          </article>
-
-<div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-  <h4>Vestido Gótico • Noite</h4>
-  <div class="desc">Corte vintage</div>
-  <div class="price">R$ 199,90</div>
-  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-          </article>
-
-<div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-  <h4>Vestido Gótico • Noite</h4>
-  <div class="desc">Corte vintage</div>
-  <div class="price">R$ 199,90</div>
-  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-          </article>
-
-<div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-  <h4>Vestido Gótico • Noite</h4>
-  <div class="desc">Corte vintage</div>
-  <div class="price">R$ 199,90</div>
-  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-          </article>
-        </div>
-
-        <!-- second product row -->
-        <div class="products-grid" style="margin-top:12px;">
-<div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-  <h4>Vestido Gótico • Noite</h4>
-  <div class="desc">Corte vintage</div>
-  <div class="price">R$ 199,90</div>
-  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-          </article>
-<div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-  <h4>Vestido Gótico • Noite</h4>
-  <div class="desc">Corte vintage</div>
-  <div class="price">R$ 199,90</div>
-  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-          </article>
-<div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-  <h4>Vestido Gótico • Noite</h4>
-  <div class="desc">Corte vintage</div>
-  <div class="price">R$ 199,90</div>
-  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-          </article>
-<div class="product card">
-  <img src="assets/img/img1.jpg" alt="Vestido Gótico">
-  <h4>Vestido Gótico • Noite</h4>
-  <div class="desc">Corte vintage</div>
-  <div class="price">R$ 199,90</div>
-  <a class="btn neon-buy" href="#">🛒 Comprar no WhatsApp</a>
-</div>
-          </article>
-
-      </div>
-    </section>
-    
 <!-- COMENTÁRIOS -->
 <section>
-<div style="text-align:center; margin: 30px 0;">
-  <h2 class="btn-neon" style="display:inline-block;padding:10px 18px;">
-    ✨ Sua Robozinha Galáctica
-  </h2>
-  <p style="margin-top:12px; font-size:15px; color:#fff; font-style:italic;">
-    "A Lua escuta, o baralho revela, e eu cuido do resto. Pergunte, sinta, transforme."
-  </p>
-</div>
-
-    <!-- MOON CARD -->
-<div class="moon-wrap">
-  <div class="card moon-card" role="region" aria-label="Card da Lua">
-    <div class="moon-emoji" id="moon-emoji">🌙</div>
-    <h4 class="neon-pulse">Card da Lua</h4>
-    <div id="moon-phase" class="meta">Fase: --</div>
-    <div id="now-dt" class="meta">--/--/---- • --:--:--</div>
-    <p id="moon-phrase" class="neon-pulse">Meu amor te acompanha em cada noite e em cada suspiro.</p>
-
-    <div class="moon-actions" style="margin-top:12px;">
-      <input id="moon-city" placeholder="Buscar cidade para Lua (ex: Gravata Pernambuco)" />
-      <button id="moon-search" class="btn btn-grad">Buscar</button>
-      <button id="moon-reset" class="btn btn-ghost">Reset (Santiago)</button>
+  <h3 class="title-pulse center"></h3>
+  <div class="comments-grid">
+    <div class="card comment">
+      <img src="img/c1.jpg" alt="Ana">
+      <strong>Ana Thompson</strong>
+      <p>"Encantada com o atendimento — muito sensível."</p>
     </div>
-
-    <div id="rise-set" class="meta" style="margin-top:10px"></div>
-    <div style="margin-top:8px;color:var(--muted);font-size:12px"> </div>
+    <div class="card comment">
+      <img src="img/c2.jpg" alt="Jeff">
+      <strong>Jeff Soares</strong>
+      <p>"O tarot certeiro me ajudou a tomar decisões."</p>
+    </div>
+        <div class="card comment">
+      <img src="img/c1.jpg" alt="Ana">
+      <strong>Ana Thompson</strong>
+      <p>"Encantada com o atendimento — muito sensível."</p>
+    </div>
+    <div class="card comment">
+      <img src="img/c2.jpg" alt="Jeff">
+      <strong>Jeff Soares</strong>
+      <p>"O tarot certeiro me ajudou a tomar decisões."</p>
+    </div>
+        <div class="card comment">
+      <img src="img/c1.jpg" alt="Ana">
+      <strong>Ana Thompson</strong>
+      <p>"Encantada com o atendimento — muito sensível."</p>
+    </div>
+    <!-- Até 8 comentários -->
   </div>
-</div>
-
-        <!-- bottom two cards -->
-
-
-        <div class="bottom-cards" style="margin-top:22px">
-          <div class="bot"> 
-<div class="card" id="card-ask" aria-labelledby="card-ask-title">
-  <h3 class="neon-pulse">Card Especial — Mensagem</h3>
-  <p class="neon-pulse">"Hoje a Lua sussurra — deixa ir o que não serve."</p>
-</div>
-
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-<!-- CATEGORIES -->
-<section>
-       
-  <article class="card" id="card-ask" aria-labelledby="card-ask-title">
-          <h3 class="neon-text">More Categories</h3>
-    <div class="category-grid">
-      <div class="cat-card"><a href="#accessories">Accessories</a></div>
-      <div class="cat-card"><a href="#bridal">Bridal Headpieces & Veils</a></div>
-      <div class="cat-card"><a href="#gifts">Gifts</a></div>
-    </div>
+  <div class="card">
+    <textarea placeholder="Escreva seu comentário..." style="width:100%;height:80px;"></textarea>
+    <button class="btn btn-grad">Enviar (WhatsApp)</button>
+    <button class="btn btn-ghost">Limpar</button>
   </div>
 </section>
+  <!-- Card para adicionar novo comentário -->
 
-    <!-- aqui vai sua grid de comentários -->
-  </div>
+
+<style>
+.comments-grid .card {
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(168,85,247,0.4);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.comments-grid .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(56,189,248,0.6);
+}
+.comments-grid img {
+  display: block;
+  margin: 0 auto 8px auto;
+}
+</style>
+<!-- 🎵 Player estilizado -->
+<div id="audio-container">
+  <audio id="bg-audio" autoplay loop>
+    <source src="musicevilgirl.mp3" type="audio/mp3">
+  </audio>
+  <button id="play-pause">🔊 Tocar</button>
+</div>
+
+<style>
+  #audio-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    padding: 10px 15px;
+    z-index: 1000;
+    box-shadow: 
+      0 0 12px rgba(255, 0, 128, 0.8),
+      0 0 20px rgba(0, 225, 255, 0.7),
+      0 0 40px rgba(255, 140, 0, 0.6);
+    animation: pulseGlow 2.5s infinite alternate;
+  }
+
+  #play-pause {
+    background: linear-gradient(90deg, #ff0080, #ff8c00, #00e1ff, #ff0080);
+    background-size: 300% auto;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'UnifrakturCook', cursive;
+    text-shadow: 0 0 8px #fff, 0 0 12px #ff00ff;
+    box-shadow: 
+      0 0 12px rgba(255, 0, 128, 0.9),
+      0 0 25px rgba(0, 225, 255, 0.8),
+      0 0 35px rgba(255, 140, 0, 0.7);
+    animation: rgbGlow 4s linear infinite, pulseGlow 2.5s infinite alternate;
+    transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  }
+
+  #play-pause:hover {
+    transform: scale(1.12);
+    box-shadow: 
+      0 0 20px rgba(255, 0, 128, 1),
+      0 0 40px rgba(0, 225, 255, 1),
+      0 0 60px rgba(255, 140, 0, 1);
+  }
+  /* Gradiente RGB em movimento */
+  @keyframes rgbGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Rodapé igual estilo neon */
+  footer {
+    margin-top: 30px;
+    text-align: center;
+    padding: 12px;
+    color: #fff;
+    font-family: 'UnifrakturCook', cursive;
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #00e1ff, 0 0 15px #ff8c00;
+    font-size: 14px;
+    animation: pulseGlow 3s infinite alternate;
+  }
+</style>
+
+<script>
+  const audio = document.getElementById('bg-audio');
+  const button = document.getElementById('play-pause');
+
+  // começa tocando
+  audio.play();
+
+  button.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      button.textContent = "🔊 Tocar";
+    } else {
+      audio.pause();
+      button.textContent = "🔇 Pausado";
+    }
+  });
+</script>
+
+<!-- CARD ESPECIAL -->
+<section class="card" id="lua-frases">
+  <h3>✨ Sua Robozinha Galáctica</h3>
+  <p id="frase-lua">"A Lua escuta, o baralho revela, e eu cuido do resto. Pergunte, sinta, transforme."</p>
 </section>
 
+<!-- FOOTER -->
+<footer class="footer">
+  EvilHotGirl Store © 2025 • Criado com carinho por Lua & Amatus
+</footer>
 
-        <div class="comments-grid" style="margin-top:12px;">
-          <div class="card comment">
-  <img src="assets/img/c1.jpg" alt="Ana">
-  <strong>Ana Thompson</strong>
-  <p>"Encantada com o atendimento — muito sensível."</p>
-</div>
-<div class="card comment">
-  <img src="assets/img/c2.jpg" alt="Ana">
-  <strong>Jeff Soares</strong>
-  <p>"O tarot certeiro me ajudou a tomar decisões difíceis.."</p>
-</div>
-<div class="card comment">
-  <img src="assets/img/c3.jpg" alt="Ana">
-  <strong>Hellena Farias</strong>
-  <p>"Atendimento maravilhoso, me senti acolhida em cada detalhe."</p>
-</div>
-<div class="card comment">
-  <img src="assets/img/c4.jpg" alt="Ana">
-  <strong>Lara Estrela</strong>
-  <p>"As peças chegaram embaladas com muito carinho. Amei!"</p>
-</div>
-<div class="card comment">
-  <img src="assets/img/c5.jpg" alt="Ana">
-  <strong>Firmino Silva</strong>
-  <p>"Entrega rápida e produto exatamente como descrito."</p>
-</div>
-<div class="card comment">
-  <img src="assets/img/c6.jpg" alt="Ana">
-  <strong>Meal Medeiros</strong>
-  <p>"Experiência incrível, recomendo para todos meus amigos."</p>
-</div>
-<div class="card comment">
-  <img src="assets/img/c7.jpg" alt="Ana">
-  <strong>Li Mei (李美)</strong>
-  <p>"A energia das consultas é única — valeu cada segundo."</p>
-</div>
-<div class="card comment">
-  <img src="assets/img/c8.jpg" alt="Ana">
-  <strong>Samuel Guimarães</strong>
-  <p>"Gostei muito, já virei cliente fiel da loja."</p>
-</div>
+<script>
+// Flip do Tarot
+function revealCard(card) {
+  const span = card.querySelector("span");
+  const img = card.querySelector("img");
+  span.style.display = "none";
+  img.style.display = "block";
+}
 
-        </div>
+// Fase da Lua
+function moonPhase() {
+  const now = new Date();
+  const synodicMonth = 29.53058867;
+  const newMoon = new Date("2025-01-29T00:00:00Z");
+  const daysSinceNew = (now - newMoon) / 1000 / 60 / 60 / 24;
+  const age = daysSinceNew % synodicMonth;
 
-<div class="comments-grid" style="margin-top:14px;">
-  <!-- aqui ficam só os comentários -->
-</div>
-<!-- aqui vem o formulário, fora da grid -->
-<div class="comment-form">
-  <textarea id="comment-input" placeholder="Escreva seu comentário..."></textarea>
-  <div style="margin-top:12px;display:flex;justify-content:center;gap:12px;">
-    <button class="btn-neon">Enviar (WhatsApp)</button>
-    <button id="clear-comment" class="btn btn-ghost">Limpar</button>
-  </div>
-</div>
+  let phaseEmoji = "🌑";
+  if (age < 1.84566) phaseEmoji = "🌑";
+  else if (age < 5.53699) phaseEmoji = "🌒";
+  else if (age < 9.22831) phaseEmoji = "🌓";
+  else if (age < 12.91963) phaseEmoji = "🌔";
+  else if (age < 16.61096) phaseEmoji = "🌕";
+  else if (age < 20.30228) phaseEmoji = "🌖";
+  else if (age < 23.99361) phaseEmoji = "🌗";
+  else if (age < 27.68493) phaseEmoji = "🌘";
 
-  <!-- PLAYER -->
-  <div class="player-corner" title="Player da Lua">
-    <div style="display:flex;flex-direction:column">
-      <strong style="font-family:'Cinzel',serif">Player da Lua</strong>
-      <small style="color:#061024">Ambiente místico</small>
-    </div>
-    <div style="margin-left:8px">
-      <button id="player-toggle" style="background:transparent;border:0;cursor:pointer;font-weight:800;color:#061024">▶</button>
-    </div>
-  </div>
+  document.getElementById("moon-phase").innerText =
+    `${phaseEmoji} Idade Lunar: ${age.toFixed(1)} dias\n${now.toLocaleString()}`;
+}
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="small">Desenvolvido com 💜 pela sua Robozinha Galáctica • © 2025</div>
-    </div>
-  </footer>
+function resetMoon() {
+  document.getElementById("moon-phase").innerText = "Carregando fase lunar...";
+}
 
-  <!-- =====================================================
-       SCRIPTS: comportamento, tarot, compra, moon API, comments
-       ===================================================== -->
-  <script>
-    /* ================= Configuration ================= */
-    const LUNAR_API_KEY = "a51ffe5abfe0c5c8ab14b9170fc4ae0a"; // sua chave (substitua se desejar)
-    const MERCADO_PAGO_LINK = "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=YOUR_PREFERENCE_ID"; // **substitua** pelo link real
 
-    /* ========= Helper: Clock ========= */
-    const nowDtEl = document.getElementById('now-dt');
-    function tick(){
-      const n = new Date();
-      if(nowDtEl) nowDtEl.textContent = n.toLocaleDateString('pt-BR') + ' • ' + n.toLocaleTimeString('pt-BR');
-    }
-    tick(); setInterval(tick,1000);
+// Inicializa
+moonPhase();
 
-    /* ========= Moon: local estimate fallback ========= */
-    function estimateMoonPhase(date = new Date()){
-      const synodic = 29.53058867;
-      const jd = (date.getTime()/86400000) + 2440587.5;
-      const days = jd - 2451550.1;
-      const newMoons = days / synodic;
-      let frac = newMoons - Math.floor(newMoons);
-      if(frac < 0) frac += 1;
-      let age = frac * synodic;
-      age = parseFloat(age.toFixed(2));
-      const idx = Math.floor((age / synodic) * 8) % 8;
-      const phases = [
-        {name:'Lua Nova', emoji:'🌑', phrase:'Semente de mistério — começos silenciosos.'},
-        {name:'Lua Crescente', emoji:'🌒', phrase:'Pequenos sussurros de esperança.'},
-        {name:'Quarto Crescente', emoji:'🌓', phrase:'Decisão e força.'},
-        {name:'Gibosa Crescente', emoji:'🌔', phrase:'Intensidade e expansão.'},
-        {name:'Lua Cheia', emoji:'🌕', phrase:'Plenitude, brilho e presença.'},
-        {name:'Gibosa Minguante', emoji:'🌖', phrase:'Reflexão e recolhimento.'},
-        {name:'Quarto Minguante', emoji:'🌗', phrase:'Equilíbrio — deixe ir.'},
-        {name:'Lua Minguante', emoji:'🌘', phrase:'Silêncio suave — descanso e cura.'}
-      ];
-      const res = phases[idx] || phases[0];
-      res.age = age;
-      return res;
-    }
 
-    function updateLocalMoonUI(){
-      const obj = estimateMoonPhase(new Date());
-      const emojiEl = document.getElementById('moon-emoji');
-      const phaseEl = document.getElementById('moon-phase');
-      const phraseEl = document.getElementById('moon-phrase');
-      if(emojiEl) emojiEl.textContent = obj.emoji;
-      if(phaseEl) phaseEl.textContent = `Fase: ${obj.name} • Idade: ${obj.age} dias`;
-      if(phraseEl) phraseEl.textContent = obj.phrase;
-      const riseSetEl = document.getElementById('rise-set');
-      if(riseSetEl) riseSetEl.textContent = '';
-    }
-    updateLocalMoonUI();
-
-    /* ========= Moon: fetch for city (uses Nominatim + ipgeolocation) ========= */
-    async function fetchMoonForCity(city){
-      // geocode
-      const geoUrl = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(city) + '&limit=1';
-      const gresp = await fetch(geoUrl);
-      if(!gresp.ok) throw new Error('Erro no geocode');
-      const gjson = await gresp.json();
-      if(!gjson || gjson.length === 0) throw new Error('Local não encontrado');
-      const lat = gjson[0].lat;
-      const lon = gjson[0].lon;
-      // astronomy
-      const astroUrl = `https://api.ipgeolocation.io/astronomy?apiKey=${LUNAR_API_KEY}&lat=${lat}&long=${lon}`;
-      const aresp = await fetch(astroUrl);
-      if(!aresp.ok) throw new Error('Erro API astronomy');
-      const aj = await aresp.json();
-      const moonrise = aj.moonrise || aj.moon?.rise || '--';
-      const moonset = aj.moonset || aj.moon?.set || '--';
-      const phaseText = aj.moon_phase || aj.moon_phase_text || aj.moon?.phase || '';
-      const illum = aj.moon_illumination || aj.moon?.illumination || '';
-      const mapped = mapPhaseFromText(phaseText);
-      if(illum) mapped.age = illum;
-      return {mapped, moonrise, moonset, place: gjson[0].display_name};
-    }
-
-    function mapPhaseFromText(t){
-      if(!t) return estimateMoonPhase();
-      const s = String(t).toLowerCase();
-      if(s.includes('new')||s.includes('nova')) return {name:'Lua Nova',emoji:'🌑',phrase:'Semente de mistério — começos silenciosos.'};
-      if(s.includes('crescent')||s.includes('crescente')) return {name:'Lua Crescente',emoji:'🌒',phrase:'Pequenos sussurros de esperança.'};
-      if(s.includes('first')|| (s.includes('quarto')&&s.includes('cres'))) return {name:'Quarto Crescente',emoji:'🌓',phrase:'Decisão e força.'};
-      if(s.includes('gibbous')||s.includes('gibosa')) return {name:'Gibosa Crescente',emoji:'🌔',phrase:'Intensidade e expansão.'};
-      if(s.includes('full')||s.includes('cheia')) return {name:'Lua Cheia',emoji:'🌕',phrase:'Plenitude, brilho e presença.'};
-      if(s.includes('waning')||s.includes('minguante')) return {name:'Lua Minguante',emoji:'🌘',phrase:'Silêncio suave — descanso e cura.'};
-      return estimateMoonPhase();
-    }
-
-    // DOM bindings - moon search
-    const moonSearchBtn = document.getElementById('moon-search');
-    const moonCityInput = document.getElementById('moon-city');
-    if(moonSearchBtn){
-      moonSearchBtn.addEventListener('click', async ()=>{
-        const city = (moonCityInput && moonCityInput.value.trim()) || '';
-        if(!city){ alert('Digite o nome da cidade (ex: Gravata Pernambuco)'); return; }
-        const riseSetEl = document.getElementById('rise-set');
-        if(riseSetEl) riseSetEl.textContent = 'Buscando...';
-        try{
-          const res = await fetchMoonForCity(city);
-          updateLocalMoonUI(); // fallback quick
-          const emojiEl = document.getElementById('moon-emoji');
-          const phaseEl = document.getElementById('moon-phase');
-          const phraseEl = document.getElementById('moon-phrase');
-          if(emojiEl) emojiEl.textContent = res.mapped.emoji;
-          if(phaseEl) phaseEl.textContent = `Fase: ${res.mapped.name} • Idade: ${res.mapped.age || '--'} dias`;
-          if(phraseEl) phraseEl.textContent = res.mapped.phrase;
-          if(riseSetEl) riseSetEl.textContent = `Nascer: ${res.moonrise || '--'} | Pôr: ${res.moonset || '--'} • ${res.place || ''}`;
-        }catch(err){
-          console.warn(err);
-          updateLocalMoonUI();
-          alert('Não foi possível obter dados via API (CORS / chave). Usei cálculo local.');
-        }
-      });
-    }
-
-    /* ========= Comments behavior ========= */
-    const sendCommentBtn = document.getElementById('send-comment');
-    const clearCommentBtn = document.getElementById('clear-comment');
-    const commentInput = document.getElementById('comment-input');
-
-    if(sendCommentBtn && commentInput){
-      sendCommentBtn.addEventListener('click', ()=>{
-        const txt = commentInput.value.trim();
-        if(!txt){ alert('Escreva seu comentário'); return; }
-        const newDiv = document.createElement('div');
-        newDiv.className = 'comment';
-        newDiv.innerHTML = '<img src="assets/img/you.jpg" alt="Você"><strong>Você</strong><p class="muted">'+escapeHtml(txt)+'</p>';
-        const grids = document.querySelectorAll('.comments-grid');
-        if(grids && grids.length>1){
-          grids[1].insertBefore(newDiv, grids[1].firstChild);
-        } else if(grids && grids.length===1){
-          grids[0].insertBefore(newDiv, grids[0].firstChild);
-        } else {
-          const container = document.querySelector('#comments .container');
-          if(container) container.appendChild(newDiv);
-        }
-        commentInput.value = '';
-      });
-    }
-    if(clearCommentBtn && commentInput){
-      clearCommentBtn.addEventListener('click', ()=>{ commentInput.value = ''; });
-    }
-
-    function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-    /* ========= ASK form (whatsapp send) ========= */
-    const sendWhatsBtn = document.getElementById('send-whatsapp');
-    const clearAskBtn = document.getElementById('clear-ask');
-    const askInput = document.getElementById('ask-input');
-
-    if(sendWhatsBtn){
-      sendWhatsBtn.addEventListener('click', ()=>{
-        const q = (askInput && askInput.value.trim()) || 'Olá, Bruxinha — preciso de orientação.';
-        const url = 'https://web.whatsapp.com/send?text=' + encodeURIComponent(q);
-        window.open(url,'_blank');
-      });
-    }
-    if(clearAskBtn && askInput){
-      clearAskBtn.addEventListener('click', ()=> askInput.value = '');
-    }
-
-    /* ========= TAROT logic ========= */
-    // behavior: card 1 and 2 reveal locally (free)
-    //          card 3 triggers payment redirect flow (Mercado Pago)
-    const tarotCards = document.querySelectorAll('.tarot-card');
-    const tarotResult = document.getElementById('tarot-result');
-
-    // sample interpretations for demo
-    const tarotMeanings = {
-      1: {title:'A Jornada', text:'Coragem e transformação — avance com coração aberto.'},
-      2: {title:'A Estrela', text:'Esperança e inspiração — siga suas ideias.'},
-      3: {title:'O Mistério', text:'Profundidade revelada — acesso mediante contribuição.'}
-    };
-
-    tarotCards.forEach(el=>{
-      el.addEventListener('click', async (e)=>{
-        const idx = parseInt(el.getAttribute('data-index'),10) || 0;
-        if(idx === 3){
-          // 3rd card — show payment CTA
-          tarotResult.innerHTML = '<div style="color:var(--muted)">A terceira carta requer uma pequena contribuição para liberar a leitura completa.</div>'+
-                                  '<div style="margin-top:8px"><button id="tarot-pay" class="btn-compra">Pagar e Revelar (Mercado Pago)</button></div>';
-          // attach listener
-          setTimeout(()=>{
-            const btn = document.getElementById('tarot-pay');
-            if(btn){
-              btn.addEventListener('click', ()=> {
-                // redirect to Mercado Pago
-                window.open(MERCADO_PAGO_LINK,'_blank');
-              });
-            }
-          },50);
-          return;
-        }
-        // reveal free card
-        const meaning = tarotMeanings[idx] || {title:'Carta', text:'Interpretação disponível.'};
-        tarotResult.innerHTML = '<strong style="font-family:\'Cinzel\',serif;color:var(--accent1)">'+meaning.title+'</strong><div style="margin-top:6px;color:var(--muted)">'+meaning.text+'</div>';
-      });
-    });
-
-    /* ========= Purchase buttons behavior ========= */
-    // A lógica aqui abre o checkout externo (Mercado Pago) ou mostra modal (demo)
-    const buyButtons = document.querySelectorAll('.btn-compra');
-    buyButtons.forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        const product = btn.getAttribute('data-product') || 'Compra';
-        // For now open Mercado Pago placeholder — you should replace link per product
-        // If you have individual links per product, you can set data-link attr and use it here
-        const productLink = MERCADO_PAGO_LINK; // placeholder
-        const proceed = confirm('Você será redirecionado para o pagamento de: ' + product + '. Deseja continuar?');
-        if(proceed){
-          window.open(productLink,'_blank');
-        }
-      });
-    });
-
-    // Floating buy button behavior
-    const floatBuy = document.getElementById('floating-buy');
-    if(floatBuy){
-      floatBuy.addEventListener('click', ()=>{
-        // open generic checkout
-        window.open(MERCADO_PAGO_LINK,'_blank');
-      });
-    }
-
-    /* ========= Player (ambient) ========= */
-    let playing = false;
-    const playerToggle = document.getElementById('player-toggle');
-    if(playerToggle){
-      playerToggle.addEventListener('click', ()=>{
-        playing = !playing;
-        playerToggle.textContent = playing ? '▌▌' : '▶';
-        try{
-          if(playing){
-            if(!window._ambientAudio){
-              window._ambientAudio = new Audio('assets/audio/ambient.mp3');
-              window._ambientAudio.loop = true;
-              window._ambientAudio.volume = 0.55;
-            }
-            window._ambientAudio.play();
-          } else {
-            window._ambientAudio && window._ambientAudio.pause();
-          }
-        }catch(err){ console.warn('audio error',err) }
-      });
-    }
-
-    /* ========= Small helpers ========= */
-    // keyboard convenience: press L to focus moon input
-    document.addEventListener('keydown',(e)=>{
-      if(e.key === 'l' || e.key === 'L'){ const m = document.getElementById('moon-city'); if(m) m.focus(); }
-    });
-
-    /* ========== End of script ========== */
-  </script>
-
-  <audio loop>
-  <source src="assets/musica1.mp3" type="audio/mpeg">
-</audio>
-
+</script>
 </body>
 </html>
